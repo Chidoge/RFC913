@@ -31,18 +31,25 @@ public class Client {
 			/* Write to server */
 			outToServer.writeBytes(line + '\n');
 			
-			if(line.equals("DONE")) {
+			if(line.toUpperCase().equals("DONE")) {
 				System.out.println("Socket closed");
 				clientSocket.close();
 				break;
 			}
 			
+			
 			/* Get server response */
 			
-			/* Print on multiple lines when calling LIST */
-			if (line.split(" ")[0].equals("LIST")) {
+			/* Print result on multiple lines when calling LIST */
+			if (line.split(" ")[0].toUpperCase().equals("LIST")) {
 				while ((serverResponse = inFromServer.readLine()) != null) { 
+					
+					/* Stop printing when no more files to list or if not enough arguments called with LIST*/
 					if (serverResponse.equals("EOF")) {
+						break;
+					}
+					else if (serverResponse.equals("Invalid command ")) {
+						System.out.println(serverResponse);
 						break;
 					}
 					System.out.println(serverResponse);
