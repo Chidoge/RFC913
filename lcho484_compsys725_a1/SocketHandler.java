@@ -46,7 +46,6 @@ public class SocketHandler {
 							break;
 						case "ACCT":
 							ACCT(args[1]);
-							System.out.println("DOING IT");
 							writeResult();
 							break;
 						case "PASS":
@@ -158,12 +157,12 @@ public class SocketHandler {
 		
 		if (format.equals("F")) {
 			code = "";
-			message = directory + "  ";
+			message = directory + "\r\n";
 			
 			for (int i = 0; i < fileList.length; i++) {
-				message += fileList[i].getName() + " ";
+				message += fileList[i].getName() + "\r\n";
 			}
-			message += "\n";
+			message += "EOF";
 		}
 		else if (format.equals("V")) {
 			code = "";

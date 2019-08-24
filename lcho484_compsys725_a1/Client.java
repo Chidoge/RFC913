@@ -32,7 +32,7 @@ public class Client {
 			outToServer.writeBytes(line + '\n');
 			
 			if(line.equals("DONE")) {
-				System.out.println("Closing socket...");
+				System.out.println("Socket closed");
 				clientSocket.close();
 				break;
 			}
