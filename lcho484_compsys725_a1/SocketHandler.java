@@ -53,6 +53,15 @@ public class SocketHandler {
 						case "KILL":
 							outputStreamHandler.writeResult(fileSystemHandler.KILL(args));
 							break;
+						case "CDIR":
+							outputStreamHandler.writeResult(fileSystemHandler.CDIR(args));
+							break;
+						case "NAME":
+							outputStreamHandler.writeResult(fileSystemHandler.NAME(args));
+							break;
+						case "TOBE":
+							outputStreamHandler.writeResult(fileSystemHandler.TOBE(args));
+							break;
 						default:
 							outputStreamHandler.writeInvalid();
 							break;
@@ -77,7 +86,6 @@ public class SocketHandler {
 		}
 	}
 	
-
 	
 	private void DONE() {
 		try {
