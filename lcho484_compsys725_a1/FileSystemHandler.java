@@ -100,7 +100,7 @@ public class FileSystemHandler {
 			return response;
 		}
 		else {
-			return "-" + currentDirectory + "/" + args[2] +" does not exist";
+			return "-" + currentDirectory + "/" + args[2] +" does not exist\r\nEOF";
 		}
 
 	}
