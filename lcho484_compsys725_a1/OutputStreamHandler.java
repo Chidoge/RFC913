@@ -17,8 +17,8 @@ public class OutputStreamHandler {
 	public void writeResult(String response) {
 		
 	    try {
-			DataOutputStream  outToClient = new DataOutputStream(socket.getOutputStream());
-			outToClient.writeBytes(response+ "\n");
+			DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
+			outToClient.writeBytes(response + "\n");
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -33,14 +33,15 @@ public class OutputStreamHandler {
 			InputStream inputStream = new FileInputStream(filename);
 			DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
 			
-			byte[] buffer = new byte[8];
-			int data = 0;
+			byte[] buffer = new byte[1];
+			int count = 0;
 			
-			while ((data = inputStream.read(buffer)) != -1) {
-				outToClient.write(buffer, 0, data);
-			}
+			while ((count = inputStream.read(buffer)) > 0) {
+				outToClient.write(buffer, 0, count);
+			};
+			outToClient.flush();
 			inputStream.close();
-			outToClient.close();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

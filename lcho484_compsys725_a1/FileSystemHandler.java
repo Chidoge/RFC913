@@ -179,12 +179,22 @@ public class FileSystemHandler {
 	public String SEND(String[] args, CredentialsHandler client) {
 		
 		if (RETRState == "PENDING") {
+			RETRState = "NONE";
 			return RETRFilename;
 		}
 		else {
 			return "";
 		}
-
+	}
+	
+	public String STOP(String[] args) {
+		
+		if (RETRState == "PENDING") {
+			return "+ok, RETR aborted";
+		}
+		else {
+			return "-RETR not in progress";
+		}
 	}
 	
 	

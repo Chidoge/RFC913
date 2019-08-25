@@ -12,7 +12,5 @@ public class Client {
 		System.out.println("Client started with server -  " + IP + ":" + port);
 		ClientStateHandler client = new ClientStateHandler(new Socket(IP, port));
 		client.start();
-		
 	}
-		
 }

@@ -35,6 +35,9 @@ public class SocketHandler {
 				else if (args[0].toUpperCase().equals("SEND")) {
 					outputStreamHandler.sendData(fileSystemHandler.SEND(args, credentialsHandler));
 				}
+				else if (args[0].toUpperCase().equals("STOP")) {
+					outputStreamHandler.writeResult(fileSystemHandler.STOP(args));
+				}
 				else if (args.length > 1) {
 					switch(args[0].toUpperCase()) {
 						case "USER":

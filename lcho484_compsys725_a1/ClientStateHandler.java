@@ -2,11 +2,8 @@ package lcho484_compsys725_a1;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.Socket;
 
 public class ClientStateHandler {
@@ -15,8 +12,13 @@ public class ClientStateHandler {
 	private String prevCommand = "";
 	private String fileToSave = "";
 	
+	private long fileSize = 0;
+	
+	private FileResponseHandler fileResponseHandler;
+	
 	public ClientStateHandler(Socket socket) { 
 		this.socket = socket;
+		fileResponseHandler = new FileResponseHandler();
 	}
 
 	public void start() throws IOException {
@@ -27,7 +29,6 @@ public class ClientStateHandler {
 		
 		/* Response reader */
 		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		String serverResponse;
 		
 		while (true) {
 			
@@ -43,37 +44,24 @@ public class ClientStateHandler {
 			
 			
 			/* Print result on multiple lines when calling LIST */
-			if (prevCommand.equals("LIST")) {
-				while ((serverResponse = inFromServer.readLine()) != null) { 
-					
-					/* Stop printing when no more files to list or if not enough arguments called with LIST*/
-					if (serverResponse.equals("EOF")) {
-						break;
-					}
-					else if (serverResponse.equals("Invalid command ")) {
-						System.out.println(serverResponse);
-						break;
-					}
-					System.out.println(serverResponse);
-				}
+			switch(prevCommand) {
+				case "LIST":
+					fileResponseHandler.LIST(inFromServer);
+					break;
+				case "RETR":
+					fileSize = fileResponseHandler.RETR(inFromServer);
+					break;
+				case "SEND":
+					fileSize = fileResponseHandler.SEND(fileSize, fileToSave, socket);
+					break;
+				default:
+					System.out.println(inFromServer.readLine()); 
+					break;
 			}
-			else if (prevCommand.equals("SEND")) {
-				InputStream inputStream = socket.getInputStream();
-				OutputStream outputStream = new FileOutputStream(fileToSave);
-				byte[] buffer = new byte[8];
-				int data;
-				while ((data = inputStream.read(buffer)) != -1) {
-					outputStream.write(buffer, 0, data);
-				}
-				inputStream.close();
-				outputStream.close();
-			}
-			else {
-				serverResponse = inFromServer.readLine(); 
-				System.out.println(serverResponse);	
-			}
+
 		}
 	}
+	
 	
 	private String writeAndSendInputToServer(BufferedReader reader, DataOutputStream outToServer) throws IOException {
 		
