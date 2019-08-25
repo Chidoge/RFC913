@@ -16,22 +16,23 @@ public class CredentialsHandler {
 
 	
 	public String USER(String[] args) {
-		
-		String response = null;
+
 		String userID = args[1];
 		
 		ArrayList<String> userList = readFile("src/users.txt");
 		
-		
 		for (int i = 0; i < userList.size(); i++) {
 			if (userID.equals(userList.get(i))) {
 				ID = userID;
-				response = "+User-id valid, send account and password";
-				return response;
+				if (isAuthorized) {
+					return "!" + userID + " logged in";
+				}
+				else {
+					return "+User-id valid, send account and password";
+				}
 			}
 		}
-		response = "-Invalid user-id, try again";
-		return response;
+		return "-Invalid user-id, try again";
 	}
 	
 	

@@ -12,7 +12,7 @@ public class ClientStateHandler {
 	private String prevCommand = "";
 	private String fileToSave = "";
 	
-	private long fileSize = 0;
+
 	
 	private FileResponseHandler fileResponseHandler;
 	
@@ -49,10 +49,10 @@ public class ClientStateHandler {
 					fileResponseHandler.LIST(inFromServer);
 					break;
 				case "RETR":
-					fileSize = fileResponseHandler.RETR(inFromServer);
+					fileResponseHandler.RETR(inFromServer);
 					break;
 				case "SEND":
-					fileSize = fileResponseHandler.SEND(fileSize, fileToSave, socket);
+					fileResponseHandler.SEND(fileToSave, socket);
 					break;
 				default:
 					System.out.println(inFromServer.readLine()); 

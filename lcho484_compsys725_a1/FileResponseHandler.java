@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 public class FileResponseHandler {
+	
+	private long fileSize = 0;
 
 	
 	public void LIST(BufferedReader inFromServer) throws IOException {
@@ -28,7 +30,7 @@ public class FileResponseHandler {
 	
 	
 	/* Return -1 after calling send to disable flag */
-	public long SEND(long fileSize, String fileToSave, Socket socket) throws IOException {
+	public void SEND(String fileToSave, Socket socket) throws IOException {
 		
 		/* Only save file if RETR was called successfully */
 		if (fileSize != -1) {
@@ -53,22 +55,26 @@ public class FileResponseHandler {
 			}
 			
 			outputStream.close();
-			return -1;
+			fileSize = -1;
 		}
-		return -1;
+		else {
+			System.out.println("Please call RETR first");
+			fileSize = -1;
+		}
+		
 	}
 	
 	
-	public long RETR(BufferedReader inFromServer) throws IOException {
+	public void RETR(BufferedReader inFromServer) throws IOException {
 		
 		String serverResponse = inFromServer.readLine();
 
 		System.out.println(serverResponse);
 		if (!serverResponse.equals("-File doesn't exist")) {
-			return Long.parseLong(serverResponse);
+			fileSize =  Long.parseLong(serverResponse);
 		}
 		else {
-			return -1;
+			fileSize = -1;
 		}
 	}
 }

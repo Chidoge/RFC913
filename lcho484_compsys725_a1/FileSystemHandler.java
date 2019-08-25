@@ -190,6 +190,7 @@ public class FileSystemHandler {
 	public String STOP(String[] args) {
 		
 		if (RETRState == "PENDING") {
+			RETRState = "NONE";
 			return "+ok, RETR aborted";
 		}
 		else {
