@@ -64,7 +64,7 @@ public class CredentialsHandler {
 			}
 			
 		}
-		/* If password already specified */
+		/* If account matches with password */
 		else {
 			if (accountName.equals(accountList.get(userIndex))) {
 				isAuthorized = true;
@@ -122,16 +122,16 @@ public class CredentialsHandler {
 			
 		}
 		else {
+			/* If password matches with account */
 			if (password.equals(passwords.get(userIndex))) {
+				isAuthorized = true;
 				if (fileSystemHandler.getCDIRState() == "PENDING") {
 					fileSystemHandler.authorizePendingPath();
 					return "!Changed working dir to " + fileSystemHandler.getCanonicalPath();
 				}
 				else {
-					isAuthorized = true;
 					return "! Logged in";
 				}
-
 			}
 			else {
 				if (fileSystemHandler.getCDIRState() == "PENDING") {

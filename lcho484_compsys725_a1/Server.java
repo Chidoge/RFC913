@@ -17,6 +17,7 @@ public class Server {
 		while(true) {
 			
 			/* Create new socket for each connection request */
+			
 			Socket socket = welcomeSocket.accept();
 			SocketHandler socketHandler = new SocketHandler(socket);
 			socketHandler.start();

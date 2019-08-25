@@ -59,7 +59,7 @@ public class ClientStateHandler {
 			}
 			else if (prevCommand.equals("SEND")) {
 				InputStream inputStream = socket.getInputStream();
-				OutputStream outputStream = new FileOutputStream("test.png");
+				OutputStream outputStream = new FileOutputStream(fileToSave);
 				byte[] buffer = new byte[8];
 				int data;
 				while ((data = inputStream.read(buffer)) != -1) {
@@ -82,10 +82,9 @@ public class ClientStateHandler {
 		
 		String[] args = line.split(" ");
 		prevCommand = args[0].toUpperCase();
-		if (prevCommand == "RETR") {
+		if (prevCommand.equals("RETR")) {
 			if (args.length >= 2) {
-				System.out.println(fileToSave);
-				fileToSave = line.split(" ")[1];
+				fileToSave = args[1];
 			}
 		}
 		

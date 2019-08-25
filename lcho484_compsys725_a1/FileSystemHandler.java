@@ -162,13 +162,13 @@ public class FileSystemHandler {
 			return "-send account/password";
 		}
 		else {
-			File file = new File(args[1]);
+			File file = new File(currentDirectory + "/" + args[1]);
 			if (!file.exists()) {
 				return "-File doesn't exist";
 			}
 			else {
 				RETRState = "PENDING";
-				RETRFilename = args[1];
+				RETRFilename = currentDirectory + "/" + args[1];
 				return Long.toString(file.length());
 			}
 
