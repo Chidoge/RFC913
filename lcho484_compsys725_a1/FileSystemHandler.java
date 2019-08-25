@@ -11,42 +11,15 @@ public class FileSystemHandler {
 	private String currentDirectory = System.getProperty("user.dir");
 	private String fileToRename = "";
 	
-	public String NAME(String[] args) {
-		File file = new File(currentDirectory + "/" + args[1]);
-		if (file.exists()) {
-			fileToRename = args[1];
-		}
-		return "+File exists";
-	}
+	private String pendingPath = "";
+	private String pendingCanonicalPath = "";
+	private String CDIRState = "NONE";
+	
+	private String RETRState = "NONE";
+	private String RETRFilename = "";
 	
 	
-	public String TOBE(String[] args) {
-		
-		/* Attempt to rename the specified file */
-		String newFilename = args[1];
-		File oldFile = new File(currentDirectory + "/" + fileToRename);
-		File renamedFile = new File(currentDirectory + "/" + newFilename);
-		boolean fileDidRename = oldFile.renameTo(renamedFile);
-		
-		if (fileDidRename) {
-			return fileToRename + " renamed to " + newFilename;
-		}
-		else {
-			/* Old file may have been deleted by different user */
-			if (!oldFile.exists()) {
-				return "-File wasn't renamed because the old file does not exist";
-			}
-			else if (renamedFile.exists()){
-				return "-File wasn't renamed because the specified file name already exists";
-			}
-			else {
-				return "-File wasn't renamed because something went wrong";
-			}
-		}
-	}
-	
-	
-	public String CDIR(String[] args) {
+	public String CDIR(String[] args, CredentialsHandler client) {
 		
 		/* Updates directory according by using RELATIVE paths - cannot use absolute path to change directory*/
 		String newDirectory = currentDirectory + "/" + args[1];
@@ -61,9 +34,18 @@ public class FileSystemHandler {
 			return "-Can't connect to directory because: Specified path is not a directory";
 		}
 		else {
-			currentDirectory = directory.getAbsolutePath();
 			try {
-				return "!Changed working dir to " + directory.getCanonicalPath();
+				if (!client.isAuthorized()) {
+					CDIRState = "PENDING";
+					pendingPath = directory.getAbsolutePath();
+					pendingCanonicalPath = directory.getCanonicalPath();
+					return "+directory ok, send account/password";
+				}
+				else {
+					CDIRState = "AUTHORIZED";
+					currentDirectory = directory.getAbsolutePath();
+					return "!Changed working dir to " + directory.getCanonicalPath();
+				}	
 			} catch (IOException e) {
 				e.printStackTrace();
 				return "-Can't connect to directory because: Something went wrong";
@@ -72,7 +54,8 @@ public class FileSystemHandler {
 	}
 	
 	
-	public String LIST(String[] args) {
+	public String LIST(String[] args, CredentialsHandler credentialsHandler) {
+	
 		
 		String response = "Invalid command ";
 		
@@ -123,7 +106,89 @@ public class FileSystemHandler {
 	}
 	
 	
-	public String KILL(String[] args) {
+	public String NAME(String[] args, CredentialsHandler client) {
+		
+		if (!client.isAuthorized()) {
+			return "-send account/password";
+		}
+		File file = new File(currentDirectory + "/" + args[1]);
+		if (file.exists()) {
+			fileToRename = args[1];
+			return "+File exists";
+		}
+		else {
+			return "-Can't find " + currentDirectory + "/" + args[1];
+		}
+		
+	}
+	
+	
+	
+	public String TOBE(String[] args, CredentialsHandler client) {
+		
+		if (fileToRename.equals("")) {
+			return "-File wasn't renamed because you have not specified a file to rename";
+		}
+		
+		/* Attempt to rename the specified file */
+		String newFilename = args[1];
+		File oldFile = new File(currentDirectory + "/" + fileToRename);
+		File renamedFile = new File(currentDirectory + "/" + newFilename);
+		boolean fileDidRename = oldFile.renameTo(renamedFile);
+		
+		if (fileDidRename) {
+			String tempOldFilename = fileToRename;
+			fileToRename = "";
+			return tempOldFilename + " renamed to " + newFilename;
+		}
+		else {
+			/* Old file may have been deleted by different user */
+			if (!oldFile.exists()) {
+				return "-File wasn't renamed because the old file does not exist";
+			}
+			else if (renamedFile.exists()) {
+				return "-File wasn't renamed because the specified file name already exists";
+			}
+			else {
+				return "-File wasn't renamed because something went wrong";
+			}
+		}
+	}
+	
+	
+	
+	public String RETR(String[] args, CredentialsHandler client) {
+		if (!client.isAuthorized()) {
+			return "-send account/password";
+		}
+		else {
+			File file = new File(args[1]);
+			if (!file.exists()) {
+				return "-File doesn't exist";
+			}
+			else {
+				RETRState = "PENDING";
+				RETRFilename = args[1];
+				return Long.toString(file.length());
+			}
+
+		}
+	}
+	
+	
+	public String SEND(String[] args, CredentialsHandler client) {
+		
+		if (RETRState == "PENDING") {
+			return RETRFilename;
+		}
+		else {
+			return "";
+		}
+
+	}
+	
+	
+	public String KILL(String[] args, CredentialsHandler client) {
 		
 		/* Open file to prepare for deletion */
 		String filename = args[1];
@@ -143,14 +208,27 @@ public class FileSystemHandler {
 		else {
 			return "-" + filename + " does not exist";
 		}
-
 	}
 	
 	
 	private String convertToReadable(long epoch) {
 		Date date = new Date(epoch);
 		DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
 		return dateFormat.format(date);
+	}
+	
+	public String getCDIRState() {
+		return CDIRState;
+	}
+	
+	public void authorizePendingPath() {
+		CDIRState = "AUTHORIZED";
+		currentDirectory = pendingPath;
+	}
+	
+	public String getCanonicalPath() {
+		return pendingCanonicalPath;
 	}
 	
 }

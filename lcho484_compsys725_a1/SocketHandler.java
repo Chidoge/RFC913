@@ -2,10 +2,6 @@ package lcho484_compsys725_a1;
 
 import java.io.*;
 import java.net.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class SocketHandler {
 	
@@ -36,31 +32,37 @@ public class SocketHandler {
 				if (args[0].toUpperCase().equals("DONE")) {
 					DONE();
 				}
+				else if (args[0].toUpperCase().equals("SEND")) {
+					outputStreamHandler.sendData(fileSystemHandler.SEND(args, credentialsHandler));
+				}
 				else if (args.length > 1) {
 					switch(args[0].toUpperCase()) {
 						case "USER":
 							outputStreamHandler.writeResult(credentialsHandler.USER(args));
 							break;
 						case "ACCT":
-							outputStreamHandler.writeResult(credentialsHandler.ACCT(args));
+							outputStreamHandler.writeResult(credentialsHandler.ACCT(args, fileSystemHandler));
 							break;
 						case "PASS":
-							outputStreamHandler.writeResult(credentialsHandler.PASS(args));
-							break;
-						case "LIST":
-							outputStreamHandler.writeResult(fileSystemHandler.LIST(args));
-							break;
-						case "KILL":
-							outputStreamHandler.writeResult(fileSystemHandler.KILL(args));
+							outputStreamHandler.writeResult(credentialsHandler.PASS(args, fileSystemHandler));
 							break;
 						case "CDIR":
-							outputStreamHandler.writeResult(fileSystemHandler.CDIR(args));
+							outputStreamHandler.writeResult(fileSystemHandler.CDIR(args, credentialsHandler));
+							break;
+						case "LIST":
+							outputStreamHandler.writeResult(fileSystemHandler.LIST(args, credentialsHandler));
+							break;
+						case "KILL":
+							outputStreamHandler.writeResult(fileSystemHandler.KILL(args, credentialsHandler));
 							break;
 						case "NAME":
-							outputStreamHandler.writeResult(fileSystemHandler.NAME(args));
+							outputStreamHandler.writeResult(fileSystemHandler.NAME(args, credentialsHandler));
 							break;
 						case "TOBE":
-							outputStreamHandler.writeResult(fileSystemHandler.TOBE(args));
+							outputStreamHandler.writeResult(fileSystemHandler.TOBE(args, credentialsHandler));
+							break;
+						case "RETR":
+							outputStreamHandler.writeResult(fileSystemHandler.RETR(args, credentialsHandler));
 							break;
 						default:
 							outputStreamHandler.writeInvalid();

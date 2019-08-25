@@ -35,43 +35,114 @@ public class CredentialsHandler {
 	}
 	
 	
-	public String ACCT(String[] args) {
+	public String ACCT(String[] args, FileSystemHandler fileSystemHandler) {
 		
 		String accountName = args[1];
 		
-		/* Check if account exists, if it does, set this account and index to know which password to match to */
 		ArrayList<String> accountList = readFile("src/accounts.txt");
-		for (int i = 0; i < accountList.size(); i++) {
-			if (accountName.equals(accountList.get(i))) {
-				account = accountName;
-				this.userIndex = i;
-				return "+Account valid, send password";
+		
+		if (password == null) {
+			/* Check if account exists, if it does, set this account and index to know which password to match to */
+			for (int i = 0; i < accountList.size(); i++) {
+				if (accountName.equals(accountList.get(i))) {
+					account = accountName;
+					this.userIndex = i;
+					if (fileSystemHandler.getCDIRState() == "PENDING") {
+						return "+account ok, send password";
+					}
+					else {
+						return "+Account valid, send password";
+					}
+					
+				}
+			}
+			if (fileSystemHandler.getCDIRState() == "PENDING") {
+				return "-invalid account";
+			}
+			else {
+				return "-Invalid account, try again";	
+			}
+			
+		}
+		/* If password already specified */
+		else {
+			if (accountName.equals(accountList.get(userIndex))) {
+				isAuthorized = true;
+				if (fileSystemHandler.getCDIRState() == "PENDING") {
+					fileSystemHandler.authorizePendingPath();
+					return "!Changed working dir to " + fileSystemHandler.getCanonicalPath();
+				}
+				else {
+					return "! Account valid, logged-in";
+				}
+				
+			}
+			else {
+				if (fileSystemHandler.getCDIRState() == "PENDING") {
+					return "-invalid account";
+				}
+				else {
+					return "-Invalid account, try again";
+				}
+				
 			}
 		}
-		return "-Invalid account, try again";	
+
 	}
 	
 	
-	public String PASS(String[] args) {
+	public String PASS(String[] args, FileSystemHandler fileSystemHandler) {
 		
-		String response = null;
 		String password = args[1];
 		
 		ArrayList<String> passwords = readFile("src/passwords.txt");
 		
 		if (account == null) {
-			response = "+Send account";
+			/* Check if password exists, if it does, set this password and index to know which account to match to */
+
+			for (int i = 0; i < passwords.size(); i++) {
+				if (password.equals(passwords.get(i))) {
+					this.password = password;
+					this.userIndex = i;
+					if (fileSystemHandler.getCDIRState() == "PENDING") {
+						return "+password ok, send account";
+					}
+					else {
+						return "+Send account";
+					}
+					
+				}
+			}
+			if (fileSystemHandler.getCDIRState() == "PENDING") {
+				return "-invalid password";
+			}
+			else {
+				return "-Wrong password, try again";
+			}
+			
 		}
 		else {
 			if (password.equals(passwords.get(userIndex))) {
-				response = "! Logged in";
-				isAuthorized = true;
+				if (fileSystemHandler.getCDIRState() == "PENDING") {
+					fileSystemHandler.authorizePendingPath();
+					return "!Changed working dir to " + fileSystemHandler.getCanonicalPath();
+				}
+				else {
+					isAuthorized = true;
+					return "! Logged in";
+				}
+
 			}
 			else {
-				response = "-Wrong password, try again";
+				if (fileSystemHandler.getCDIRState() == "PENDING") {
+					return "-invalid password";
+				}
+				else {
+					return "-Wrong password, try again";
+				}
+				
 			}
 		}
-		return response;
 	}
 	
 	

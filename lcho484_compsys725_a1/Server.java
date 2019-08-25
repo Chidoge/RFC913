@@ -10,6 +10,7 @@ public class Server {
 		
 		/* Open socket */
 		int port = 3000;
+		@SuppressWarnings("resource")
 		ServerSocket welcomeSocket = new ServerSocket(port);
 		System.out.println("Server started at port " + port + "\n");
 		
@@ -17,7 +18,6 @@ public class Server {
 			
 			/* Create new socket for each connection request */
 			Socket socket = welcomeSocket.accept();
-			
 			SocketHandler socketHandler = new SocketHandler(socket);
 			socketHandler.start();
 	
