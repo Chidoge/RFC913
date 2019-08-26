@@ -9,11 +9,8 @@ import java.net.Socket;
 public class ClientStateHandler {
 	
 	private Socket socket;
-	private String prevCommand = "";
-	private String fileToSave = "";
-	
+	private String[] prevArgs;
 
-	
 	private FileResponseHandler fileResponseHandler;
 	
 	public ClientStateHandler(Socket socket) { 
@@ -42,17 +39,22 @@ public class ClientStateHandler {
 			
 			/* --------------- Get server response ---------------- */
 			
-			
-			/* Print result on multiple lines when calling LIST */
-			switch(prevCommand) {
+			/* Handles server responses for different commands */
+			switch(prevArgs[0].toUpperCase()) {
 				case "LIST":
 					fileResponseHandler.LIST(inFromServer);
 					break;
 				case "RETR":
-					fileResponseHandler.RETR(inFromServer);
+					fileResponseHandler.RETR(inFromServer, prevArgs);
 					break;
 				case "SEND":
-					fileResponseHandler.SEND(fileToSave, socket);
+					fileResponseHandler.SEND(socket);
+					break;
+				case "STOR":
+					fileResponseHandler.STOR(inFromServer, prevArgs);
+					break;
+				case "SIZE":
+					fileResponseHandler.SIZE(inFromServer, socket);
 					break;
 				default:
 					System.out.println(inFromServer.readLine()); 
@@ -68,13 +70,7 @@ public class ClientStateHandler {
 		System.out.println("Input: ");
 		String line = reader.readLine();
 		
-		String[] args = line.split(" ");
-		prevCommand = args[0].toUpperCase();
-		if (prevCommand.equals("RETR")) {
-			if (args.length >= 2) {
-				fileToSave = args[1];
-			}
-		}
+		prevArgs = line.split(" ");
 		
 		/* Write to server */
 		outToServer.writeBytes(line + '\n');

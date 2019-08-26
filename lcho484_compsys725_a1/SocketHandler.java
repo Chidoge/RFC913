@@ -67,6 +67,13 @@ public class SocketHandler {
 						case "RETR":
 							outputStreamHandler.writeResult(fileSystemHandler.RETR(args, credentialsHandler));
 							break;
+						case "STOR":
+							outputStreamHandler.writeResult(fileSystemHandler.STOR(args, credentialsHandler));
+							break;
+						case "SIZE":
+							outputStreamHandler.writeResult(fileSystemHandler.SIZE(args));
+							outputStreamHandler.writeResult(fileSystemHandler.waitFile(outputStreamHandler.getSocket()));
+							break;
 						default:
 							outputStreamHandler.writeInvalid();
 							break;

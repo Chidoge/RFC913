@@ -59,4 +59,8 @@ public class OutputStreamHandler {
 			e.printStackTrace();
 		} 
 	}
+	
+	public Socket getSocket() {
+		return socket;
+	}
 }

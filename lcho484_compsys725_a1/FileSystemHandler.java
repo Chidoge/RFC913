@@ -1,7 +1,11 @@
 package lcho484_compsys725_a1;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,6 +21,10 @@ public class FileSystemHandler {
 	
 	private String RETRState = "NONE";
 	private String RETRFilename = "";
+	
+	private String STORFilename = "";
+	private String STORState = "NONE";
+	private long STORFilesize = 0;
 	
 	
 	public String CDIR(String[] args, CredentialsHandler client) {
@@ -219,6 +227,131 @@ public class FileSystemHandler {
 		else {
 			return "-" + filename + " does not exist";
 		}
+	}
+	
+	
+	public String STOR(String[] args, CredentialsHandler client) {
+		
+		if (args.length < 3) {
+			return "-Not enough arguments";
+		}
+		
+		if (!client.isAuthorized()) {
+			//TODO
+			//Make sure client handles this
+			return "-Please log in";
+		}
+		String type = args[1].toUpperCase();
+
+		if (type.equals("NEW")) {
+			STORState = "PENDING";
+			return newHandler(args[2]);
+		}
+		else if (type.equals("OLD")) {
+			STORState = "PENDING";
+			return oldHandler(args[2]);
+		}
+		else if (type.equals("APP")) {
+			STORState = "PENDING";
+			return appHandler(args[2]);
+		}
+		return "-Please specify a valid type";
+	}
+	
+	
+	public String SIZE(String[] args) {
+		
+		if (STORState.equals("NONE")) {
+			return "-Please call STOR first";
+		}
+		
+		//Check if disk has sufficient space
+		STORFilesize = Long.parseLong(args[1]);
+		File directory = new File(currentDirectory);
+		
+		System.out.println(directory.getFreeSpace());
+		if (directory.getFreeSpace() >= STORFilesize) {
+			STORState = "WAITING";
+			return "+ok, waiting for file";	
+		}
+		else {
+			STORState = "NONE";
+			return "-Not enough room, don't send it";
+		}
+
+	}
+	
+	
+	public String waitFile(Socket socket) throws IOException {
+		
+		if (STORState.equals("WAITING")) {
+			InputStream inputStream = socket.getInputStream();
+			OutputStream outputStream = new FileOutputStream(STORFilename);
+			int i = 0;
+			int count = 0;
+			byte[] buffer = new byte[1];
+			
+			while (i < STORFilesize) {
+				count = inputStream.read(buffer);
+				outputStream.write(buffer, 0, count);
+				i++;
+			}
+			outputStream.close();
+			STORState = "NONE";
+			return "+Saved " + STORFilename;
+		}
+		else {
+			return "-Please call STOR first";
+		}
+	}
+	
+	
+	public String newHandler(String filename) {
+		File file = new File(currentDirectory + "/" + filename);
+		if (!file.exists()) {
+			return "+File does not exist, will create new file";
+			
+		}
+		else {
+			/* Check through 50 generations of the same file */
+			for (int i = 1; i < 50; i++) {
+
+				int cutOffPoint = filename.lastIndexOf(".");
+				String newFilename = filename.substring(0, cutOffPoint) + 
+									" (" + Integer.toString(i) + ")" +
+									filename.substring(cutOffPoint, filename.length());
+				File testFile = new File(currentDirectory + "/" + newFilename);
+				
+				if (!testFile.exists()) {
+					STORFilename = currentDirectory + "/" + newFilename;
+					return "+File exists, will create new generation of file";
+					
+				}
+			}
+			
+			/* If have to create more than the 50th generation, do not create file */
+			return "-File exists, but system does not support generations";		
+		}
+	}
+	
+	
+	public String oldHandler(String filename) {
+		
+		File file = new File(currentDirectory + "/" + filename); 
+		
+		if (!file.exists()) {
+			return "+Will create new file";
+			
+		}
+		else {
+			return "+Will write over old file";		
+		}
+	}
+	
+	
+	public String appHandler(String filename) {
+		
+		return "";
 	}
 	
 	
