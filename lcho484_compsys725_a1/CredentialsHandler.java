@@ -28,7 +28,14 @@ public class CredentialsHandler {
 					return "!" + userID + " logged in";
 				}
 				else {
-					return "+User-id valid, send account and password";
+					if (userID.equals("guest")) {
+						isAuthorized = true;
+						return "!guest logged in";
+					}
+					else {
+						return "+User-id valid, send account and password";
+					}
+					
 				}
 			}
 		}
