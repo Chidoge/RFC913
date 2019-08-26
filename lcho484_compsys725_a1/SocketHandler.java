@@ -18,8 +18,9 @@ public class SocketHandler {
 		this.fileSystemHandler = new FileSystemHandler();
 	}
 	
-	public void start() {
+	public void start() throws IOException {
 		
+		outputStreamHandler.greet();
 		while(true) {
 			
 			/* Get command */
@@ -103,6 +104,7 @@ public class SocketHandler {
 	
 	private void DONE() {
 		try {
+			outputStreamHandler.goodBye();
 			socket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

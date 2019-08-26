@@ -27,6 +27,9 @@ public class ClientStateHandler {
 		/* Response reader */
 		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		
+		String greeting = inFromServer.readLine();
+		System.out.println(greeting);
+		
 		while (true) {
 			
 			String line = writeAndSendInputToServer(reader, outToServer);

@@ -14,9 +14,15 @@ public class OutputStreamHandler {
 		this.socket = socket;
 	}
 	
+	public void greet() throws IOException {
+		DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
+		outToClient.writeBytes("+Connected successfully " + "\n");
+	}
+	
 	public void writeResult(String response) {
 		
 	    try {
+	    	System.out.println(response);
 			DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
 			outToClient.writeBytes(response + "\n");
 			
@@ -35,7 +41,6 @@ public class OutputStreamHandler {
 			
 			byte[] buffer = new byte[1];
 			int count = 0;
-			
 			while ((count = inputStream.read(buffer)) > 0) {
 				outToClient.write(buffer, 0, count);
 			};
@@ -54,6 +59,16 @@ public class OutputStreamHandler {
 	    try {
 			DataOutputStream  outToClient = new DataOutputStream(socket.getOutputStream());
 			outToClient.writeBytes("Invalid command " + '\n');
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	
+	public void goodBye() {
+	    try {
+			DataOutputStream  outToClient = new DataOutputStream(socket.getOutputStream());
+			outToClient.writeBytes("+Closing connection " + '\n');
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
