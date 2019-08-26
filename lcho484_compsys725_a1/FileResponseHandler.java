@@ -111,7 +111,8 @@ public class FileResponseHandler {
 		}
 		/* Handle server side error */
 		else {
-			
+			fileToSend = "";
+			sendFileSize = 0;
 		}
 	}
 	

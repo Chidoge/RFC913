@@ -72,7 +72,9 @@ public class SocketHandler {
 							break;
 						case "SIZE":
 							outputStreamHandler.writeResult(fileSystemHandler.SIZE(args));
-							outputStreamHandler.writeResult(fileSystemHandler.waitFile(outputStreamHandler.getSocket()));
+							if (fileSystemHandler.getSTORState().equals("WAITING")) {
+								outputStreamHandler.writeResult(fileSystemHandler.waitFile(outputStreamHandler.getSocket()));
+							}
 							break;
 						default:
 							outputStreamHandler.writeInvalid();

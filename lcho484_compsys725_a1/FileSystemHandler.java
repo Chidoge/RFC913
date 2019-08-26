@@ -164,8 +164,10 @@ public class FileSystemHandler {
 	}
 	
 	
-	
+	/* Set up RETR status */
 	public String RETR(String[] args, CredentialsHandler client) {
+		
+		/* Make sure client is authorized */
 		if (!client.isAuthorized()) {
 			return "-send account/password";
 		}
@@ -179,11 +181,11 @@ public class FileSystemHandler {
 				RETRFilename = currentDirectory + "/" + args[1];
 				return Long.toString(file.length());
 			}
-
 		}
 	}
 	
 	
+	/* If RETR was set up, return filename so handler can send to client */
 	public String SEND(String[] args, CredentialsHandler client) {
 		
 		if (RETRState == "PENDING") {
@@ -195,6 +197,8 @@ public class FileSystemHandler {
 		}
 	}
 	
+	
+	/* Cancel RETR operation */
 	public String STOP(String[] args) {
 		
 		if (RETRState == "PENDING") {
@@ -207,6 +211,7 @@ public class FileSystemHandler {
 	}
 	
 	
+	/* Delete file */
 	public String KILL(String[] args, CredentialsHandler client) {
 		
 		/* Open file to prepare for deletion */
@@ -230,6 +235,7 @@ public class FileSystemHandler {
 	}
 	
 	
+	/* Prepare to receive file from client */
 	public String STOR(String[] args, CredentialsHandler client) {
 		
 		if (args.length < 3) {
@@ -241,8 +247,9 @@ public class FileSystemHandler {
 			//Make sure client handles this
 			return "-Please log in";
 		}
+		
+		/* Handle different types of STOR */
 		String type = args[1].toUpperCase();
-
 		if (type.equals("NEW")) {
 			STORState = "PENDING";
 			return newHandler(args[2]);
@@ -259,18 +266,18 @@ public class FileSystemHandler {
 	}
 	
 	
+	/*  */
 	public String SIZE(String[] args) {
 		
 		if (STORState.equals("NONE")) {
 			return "-Please call STOR first";
 		}
 		
-		//Check if disk has sufficient space
+		/* Check if disk has sufficient space */
 		STORFilesize = Long.parseLong(args[1]);
 		File directory = new File(currentDirectory);
 		
-		System.out.println(directory.getFreeSpace());
-		if (directory.getFreeSpace() >= STORFilesize) {
+		if (directory.getUsableSpace() >= STORFilesize) {
 			STORState = "WAITING";
 			return "+ok, waiting for file";	
 		}
@@ -284,25 +291,21 @@ public class FileSystemHandler {
 	
 	public String waitFile(Socket socket) throws IOException {
 		
-		if (STORState.equals("WAITING")) {
-			InputStream inputStream = socket.getInputStream();
-			OutputStream outputStream = new FileOutputStream(STORFilename);
-			int i = 0;
-			int count = 0;
-			byte[] buffer = new byte[1];
-			
-			while (i < STORFilesize) {
-				count = inputStream.read(buffer);
-				outputStream.write(buffer, 0, count);
-				i++;
-			}
-			outputStream.close();
-			STORState = "NONE";
-			return "+Saved " + STORFilename;
+		InputStream inputStream = socket.getInputStream();
+		OutputStream outputStream = new FileOutputStream(STORFilename);
+		int i = 0;
+		int count = 0;
+		byte[] buffer = new byte[1];
+		
+		while (i < STORFilesize) {
+			count = inputStream.read(buffer);
+			outputStream.write(buffer, 0, count);
+			i++;
 		}
-		else {
-			return "-Please call STOR first";
-		}
+		outputStream.close();
+		STORState = "NONE";
+		return "+Saved " + STORFilename;
+
 	}
 	
 	
@@ -375,4 +378,8 @@ public class FileSystemHandler {
 		return pendingCanonicalPath;
 	}
 	
+	public String getSTORState() {
+		return STORState;
+	}
+
 }
