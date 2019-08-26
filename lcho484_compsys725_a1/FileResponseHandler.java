@@ -51,7 +51,7 @@ public class FileResponseHandler {
 			/* Keep receiving data until reported number of bytes received */
 			while (progress < fileSize) {
 				read = inputStream.read(buffer);
-				outputStream.write(read);
+				outputStream.write(buffer, 0, read);
 				progress++;
 				
 				/* Print download progress for user */

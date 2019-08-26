@@ -321,7 +321,7 @@ public class FileSystemHandler {
 
 				int cutOffPoint = filename.lastIndexOf(".");
 				String newFilename = filename.substring(0, cutOffPoint) + 
-									" (" + Integer.toString(i) + ")" +
+									"(" + Integer.toString(i) + ")" +
 									filename.substring(cutOffPoint, filename.length());
 				File testFile = new File(currentDirectory + "/" + newFilename);
 				
