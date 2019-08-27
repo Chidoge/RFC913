@@ -2,6 +2,7 @@ package lcho484_compsys725_a1;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
@@ -70,7 +71,20 @@ public class ClientStateHandler {
 		System.out.println("Input: ");
 		String line = reader.readLine();
 		
-		prevArgs = line.split(" ");
+		String[] args = line.split(" ");
+		
+		/* If calling STOR, make sure the file exists on the client side */
+		if (args.length > 1 && args[0].toUpperCase().equals("STOR")) {
+			String filename = args[2];
+			File file = new File(filename);
+			if (!file.exists()) {
+				System.out.println("-The file you are trying to send to the server does not exist");
+				writeAndSendInputToServer(reader, outToServer);
+				return line;
+			}
+		}
+		
+		prevArgs = args;
 		
 		/* Write to server */
 		outToServer.writeBytes(line + '\n');

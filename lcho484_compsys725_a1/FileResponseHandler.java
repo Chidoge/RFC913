@@ -75,6 +75,7 @@ public class FileResponseHandler {
 	
 	/* Handles the server response after calling STOR then SIZE. */
 	private void SIZE(BufferedReader inFromServer, Socket socket) throws IOException {
+		
 		String serverResponse = inFromServer.readLine();
 		System.out.println(serverResponse);
 		
