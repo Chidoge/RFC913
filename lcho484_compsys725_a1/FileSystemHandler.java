@@ -1,7 +1,9 @@
 package lcho484_compsys725_a1;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -306,21 +308,39 @@ public class FileSystemHandler {
 	
 	public String waitFile(Socket socket) throws IOException {
 		
-		InputStream inputStream = socket.getInputStream();
-		OutputStream outputStream = new FileOutputStream(STORFilename);
-		int i = 0;
-		int count = 0;
-		byte[] buffer = new byte[1];
-		
-		while (i < STORFilesize) {
-			count = inputStream.read(buffer);
-			outputStream.write(buffer, 0, count);
-			i++;
+		if (STORType.equals("APP")) {
+			InputStream inputStream = socket.getInputStream();
+			File file = new File(STORFilename);
+			FileWriter fileWriter = new FileWriter(file, true);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			
+			int i = 0;
+			int count = 0;
+			byte[] buffer = new byte[1];
+			while (i < STORFilesize) {
+				count = inputStream.read(buffer);
+				bufferedWriter.write(buffer.toString());
+				count++;
+			}
+			bufferedWriter.close();
+			return "+Saved " + STORFilename;
 		}
-		outputStream.close();
-		STORState = "NONE";
-		return "+Saved " + STORFilename;
-
+		else {
+			InputStream inputStream = socket.getInputStream();
+			OutputStream outputStream = new FileOutputStream(STORFilename);
+			int i = 0;
+			int count = 0;
+			byte[] buffer = new byte[1];
+			
+			while (i < STORFilesize) {
+				count = inputStream.read(buffer);
+				outputStream.write(buffer, 0, count);
+				i++;
+			}
+			outputStream.close();
+			STORState = "NONE";
+			return "+Saved " + STORFilename;
+		}
 	}
 	
 	

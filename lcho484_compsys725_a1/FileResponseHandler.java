@@ -26,7 +26,7 @@ public class FileResponseHandler {
 			if (serverResponse.equals("EOF")) {
 				break;
 			}
-			else if (serverResponse.equals("-Invalid command ")) {
+			else if (serverResponse.equals("-Invalid command")) {
 				System.out.println(serverResponse);
 				break;
 			}
@@ -138,7 +138,6 @@ public class FileResponseHandler {
 		else {
 			fileToSave = args[1];
 			fileSize =  Long.parseLong(serverResponse);
-//			if (fileSize)
 		}
 	}
 	
@@ -173,7 +172,15 @@ public class FileResponseHandler {
 			}
 		}
 		else if (type.equals("APP")) {
-			SIZE(inFromServer, socket);
+			if (serverResponse.equals("+Will append to file") ||
+				serverResponse.equals("+Will create file")) {
+				File file = new File(args[2]);
+				sendFileSize = file.length();
+				fileToSend = args[2];
+				writeAndSendSizeToServer(Long.toString(sendFileSize), socket);
+				SIZE(inFromServer, socket);	
+			}
+
 		}
 	}
 	
