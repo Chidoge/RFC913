@@ -62,8 +62,11 @@ public class FileSystemHandler {
 	}
 	
 	
-	public String LIST(String[] args, CredentialsHandler credentialsHandler) {
+	public String LIST(String[] args, CredentialsHandler client) {
 	
+		if (!client.isAuthorized()) {
+			return "-send account/password\r\nEOF";
+		}
 		
 		String response = "Invalid command ";
 		
@@ -214,6 +217,10 @@ public class FileSystemHandler {
 	/* Delete file */
 	public String KILL(String[] args, CredentialsHandler client) {
 		
+		if (!client.isAuthorized()) {
+			return "-send account/password";
+		}
+		
 		/* Open file to prepare for deletion */
 		String filename = args[1];
 		String directory = System.getProperty("user.dir") + "/" + filename;
@@ -328,10 +335,9 @@ public class FileSystemHandler {
 				if (!testFile.exists()) {
 					STORFilename = currentDirectory + "/" + newFilename;
 					return "+File exists, will create new generation of file";
-					
 				}
 			}
-			
+			STORState = "NONE";
 			/* If have to create more than the 50th generation, do not create file */
 			return "-File exists, but system does not support generations";		
 		}
@@ -341,20 +347,32 @@ public class FileSystemHandler {
 	public String oldHandler(String filename) {
 		
 		File file = new File(currentDirectory + "/" + filename); 
+		STORFilename = currentDirectory + "/" + filename;
 		
-		if (!file.exists()) {
-			return "+Will create new file";
-			
-		}
-		else {
-			return "+Will write over old file";		
-		}
+		return !file.exists() ? "+Will create new file" : "+Will write over new file";
+	
 	}
 	
 	
 	public String appHandler(String filename) {
 		
-		return "";
+		/* Check that file is text file - otherwise should not append */
+		int indexDot = filename.lastIndexOf(".");
+		String extension = filename.substring(indexDot, filename.length());
+		
+		if (!extension.equals(".txt")) {
+			STORState = "NONE";
+			return "-Can only use APP on text files";
+		}
+		
+		File file = new File(currentDirectory + "/" + filename);
+		
+		if (!file.exists()) {
+			return "+Will create file";
+		}
+		else {
+			return "+Will append to file";
+		}
 	}
 	
 	

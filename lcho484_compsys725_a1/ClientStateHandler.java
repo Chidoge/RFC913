@@ -54,10 +54,7 @@ public class ClientStateHandler {
 					fileResponseHandler.SEND(socket);
 					break;
 				case "STOR":
-					fileResponseHandler.STOR(inFromServer, prevArgs);
-					break;
-				case "SIZE":
-					fileResponseHandler.SIZE(inFromServer, socket);
+					fileResponseHandler.STOR(inFromServer, prevArgs, socket);
 					break;
 				default:
 					System.out.println(inFromServer.readLine()); 

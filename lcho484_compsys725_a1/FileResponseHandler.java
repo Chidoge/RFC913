@@ -74,7 +74,7 @@ public class FileResponseHandler {
 	
 	
 	/* Handles the server response after calling STOR then SIZE. */
-	public void SIZE(BufferedReader inFromServer, Socket socket) throws IOException {
+	private void SIZE(BufferedReader inFromServer, Socket socket) throws IOException {
 		String serverResponse = inFromServer.readLine();
 		System.out.println(serverResponse);
 		
@@ -133,7 +133,7 @@ public class FileResponseHandler {
 	}
 	
 	
-	public void STOR(BufferedReader inFromServer, String[] args) throws IOException {
+	public void STOR(BufferedReader inFromServer, String[] args, Socket socket) throws IOException {
 		
 		String serverResponse = inFromServer.readLine();
 		System.out.println(serverResponse);
@@ -146,7 +146,9 @@ public class FileResponseHandler {
 				File file = new File(args[2]);
 				sendFileSize = file.length();
 				fileToSend = args[2];
-				System.out.println("File size is " + Long.toString(sendFileSize) + " bytes");
+				
+				writeAndSendSizeToServer(Long.toString(sendFileSize), socket);
+				SIZE(inFromServer, socket);
 			}			
 		}
 		else if (type.equals("OLD")) {
@@ -155,12 +157,22 @@ public class FileResponseHandler {
 				File file = new File(args[2]);
 				sendFileSize = file.length();
 				fileToSend = args[2];
-				System.out.println("File size is " + Long.toString(sendFileSize) + " bytes");
+				
+				writeAndSendSizeToServer(Long.toString(sendFileSize), socket);
+				SIZE(inFromServer, socket);
 			}
 		}
 		else if (type.equals("APP")) {
 			
 		}
+	}
+	
+	private void writeAndSendSizeToServer(String out, Socket socket) throws IOException {
+		
+		/* Write to server */
+		String line = "SIZE " + Long.toString(sendFileSize);
+		DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+		outToServer.writeBytes(line + '\n');
 	}
 	
 }

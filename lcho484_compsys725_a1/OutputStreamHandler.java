@@ -22,7 +22,6 @@ public class OutputStreamHandler {
 	public void writeResult(String response) {
 		
 	    try {
-	    	System.out.println(response);
 			DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
 			outToClient.writeBytes(response + "\n");
 			
