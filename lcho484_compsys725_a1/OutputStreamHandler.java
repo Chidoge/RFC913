@@ -34,6 +34,13 @@ public class OutputStreamHandler {
 	
 	public void sendData(String filename) {
 		
+		if (filename.equals("-Please call RETR first")) {
+			writeResult(filename);
+			return;
+		}
+		
+		writeResult("+Sending file");
+		
 		try {
 			InputStream inputStream = new FileInputStream(filename);
 			DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
@@ -57,7 +64,7 @@ public class OutputStreamHandler {
 	public void writeInvalid() {
 	    try {
 			DataOutputStream  outToClient = new DataOutputStream(socket.getOutputStream());
-			outToClient.writeBytes("Invalid command " + '\n');
+			outToClient.writeBytes("-Invalid command" + '\n');
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

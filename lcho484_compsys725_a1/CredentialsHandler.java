@@ -7,13 +7,10 @@ import java.util.ArrayList;
 
 public class CredentialsHandler {
 	
-	private int userIndex = -1;
-	
 	private String ID = null;
 	private String account = null;
 	private String password = null;
 	private boolean isAuthorized = false;
-
 	
 	public String USER(String[] args) {
 
@@ -54,7 +51,6 @@ public class CredentialsHandler {
 			for (int i = 0; i < accountList.size(); i++) {
 				if (accountName.equals(accountList.get(i))) {
 					account = accountName;
-					this.userIndex = i;
 					if (fileSystemHandler.getCDIRState() == "PENDING") {
 						return "+account ok, send password";
 					}

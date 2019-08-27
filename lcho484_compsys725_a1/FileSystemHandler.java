@@ -24,6 +24,7 @@ public class FileSystemHandler {
 	
 	private String STORFilename = "";
 	private String STORState = "NONE";
+	private String STORType = "NONE";
 	private long STORFilesize = 0;
 	
 	
@@ -68,7 +69,7 @@ public class FileSystemHandler {
 			return "-send account/password\r\nEOF";
 		}
 		
-		String response = "Invalid command ";
+		String response = "-Invalid command";
 		
 		String format = args[1].toUpperCase();
 		String directory = currentDirectory;
@@ -137,6 +138,10 @@ public class FileSystemHandler {
 	
 	public String TOBE(String[] args, CredentialsHandler client) {
 		
+		if (!client.isAuthorized()) {
+			return "-send account/password";
+		}
+		
 		if (fileToRename.equals("")) {
 			return "-File wasn't renamed because you have not specified a file to rename";
 		}
@@ -196,7 +201,7 @@ public class FileSystemHandler {
 			return RETRFilename;
 		}
 		else {
-			return "";
+			return "-Please call RETR first";
 		}
 	}
 	
@@ -259,14 +264,17 @@ public class FileSystemHandler {
 		String type = args[1].toUpperCase();
 		if (type.equals("NEW")) {
 			STORState = "PENDING";
+			STORType = "NEW";
 			return newHandler(args[2]);
 		}
 		else if (type.equals("OLD")) {
 			STORState = "PENDING";
+			STORType = "OLD";
 			return oldHandler(args[2]);
 		}
 		else if (type.equals("APP")) {
 			STORState = "PENDING";
+			STORType = "APP";
 			return appHandler(args[2]);
 		}
 		return "-Please specify a valid type";
@@ -284,7 +292,7 @@ public class FileSystemHandler {
 		STORFilesize = Long.parseLong(args[1]);
 		File directory = new File(currentDirectory);
 		
-		if (directory.getUsableSpace() >= STORFilesize) {
+		if (directory.getFreeSpace() >= STORFilesize) {
 			STORState = "WAITING";
 			return "+ok, waiting for file";	
 		}

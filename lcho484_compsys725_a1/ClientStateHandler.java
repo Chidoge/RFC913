@@ -52,10 +52,13 @@ public class ClientStateHandler {
 					fileResponseHandler.RETR(inFromServer, prevArgs);
 					break;
 				case "SEND":
-					fileResponseHandler.SEND(socket);
+					fileResponseHandler.SEND(inFromServer, socket);
 					break;
 				case "STOR":
 					fileResponseHandler.STOR(inFromServer, prevArgs, socket);
+					break;
+				case "STOP":
+					fileResponseHandler.STOP(inFromServer);
 					break;
 				default:
 					System.out.println(inFromServer.readLine()); 

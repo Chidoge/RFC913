@@ -13,7 +13,7 @@ import java.net.Socket;
 public class FileResponseHandler {
 	
 	private String fileToSave = "";
-	private long fileSize = 0;
+	private long fileSize = -1;
 
 	private String fileToSend = "";
 	private long sendFileSize = 0;
@@ -26,7 +26,7 @@ public class FileResponseHandler {
 			if (serverResponse.equals("EOF")) {
 				break;
 			}
-			else if (serverResponse.equals("Invalid command ")) {
+			else if (serverResponse.equals("-Invalid command ")) {
 				System.out.println(serverResponse);
 				break;
 			}
@@ -36,10 +36,16 @@ public class FileResponseHandler {
 	
 	
 	/* Return -1 after calling send to disable flag */
-	public void SEND(Socket socket) throws IOException {
+	public void SEND(BufferedReader inFromServer, Socket socket) throws IOException {
+		
+		String response = inFromServer.readLine();
+		System.out.println(response);
 		
 		/* Only save file if RETR was called successfully */
-		if (fileSize != -1) {
+		if (!response.equals("-Please call RETR first") 
+			&& !response.equals("-send account/password")
+			&& !response.equals("-Invalid command")
+		) {
 			InputStream inputStream = socket.getInputStream();
 			OutputStream outputStream = new FileOutputStream(fileToSave);
 			
@@ -67,7 +73,6 @@ public class FileResponseHandler {
 			fileSize = -1;
 		}
 		else {
-			System.out.println("Please call RETR first");
 			fileSize = -1;
 		}
 	}
@@ -123,13 +128,17 @@ public class FileResponseHandler {
 		String serverResponse = inFromServer.readLine();
 		System.out.println(serverResponse);
 		
-		if (serverResponse.equals("-File doesn't exist")) {
+		if (serverResponse.equals("-File doesn't exist") 
+			|| serverResponse.equals("-send account/password")
+			|| serverResponse.equals("-Invalid command")
+		) {
 			fileSize = -1;
 		}
 		/* Prepare to save file */
 		else {
 			fileToSave = args[1];
 			fileSize =  Long.parseLong(serverResponse);
+//			if (fileSize)
 		}
 	}
 	
@@ -164,8 +173,16 @@ public class FileResponseHandler {
 			}
 		}
 		else if (type.equals("APP")) {
-			
+			SIZE(inFromServer, socket);
 		}
+	}
+	
+	public void STOP(BufferedReader inFromServer) throws IOException {
+		
+		fileSize = -1;
+		fileToSave = "";
+		String response = inFromServer.readLine();
+		System.out.println(response);
 	}
 	
 	private void writeAndSendSizeToServer(String out, Socket socket) throws IOException {
