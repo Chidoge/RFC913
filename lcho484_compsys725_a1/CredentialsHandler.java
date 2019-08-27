@@ -50,7 +50,7 @@ public class CredentialsHandler {
 		ArrayList<String> accountList = readFile("src/accounts.txt");
 		
 		if (password == null) {
-			/* Check if account exists, if it does, set this account and index to know which password to match to */
+			/* Check if account exists, if it does, set the account*/
 			for (int i = 0; i < accountList.size(); i++) {
 				if (accountName.equals(accountList.get(i))) {
 					account = accountName;
@@ -74,7 +74,10 @@ public class CredentialsHandler {
 		}
 		/* If account matches with password */
 		else {
-			if (accountName.equals(accountList.get(userIndex))) {
+			ArrayList<String> passwords = readFile("src/passwords.txt");
+			int accountIndex = accountList.indexOf(accountName);
+			
+			if (passwords.get(accountIndex).equals(password)) {
 				isAuthorized = true;
 				if (fileSystemHandler.getCDIRState() == "PENDING") {
 					fileSystemHandler.authorizePendingPath();
@@ -83,7 +86,6 @@ public class CredentialsHandler {
 				else {
 					return "! Account valid, logged-in";
 				}
-				
 			}
 			else {
 				if (fileSystemHandler.getCDIRState() == "PENDING") {
@@ -106,12 +108,10 @@ public class CredentialsHandler {
 		ArrayList<String> passwords = readFile("src/passwords.txt");
 		
 		if (account == null) {
-			/* Check if password exists, if it does, set this password and index to know which account to match to */
-
+			/* Check if password exists, if it does, set the password*/
 			for (int i = 0; i < passwords.size(); i++) {
 				if (password.equals(passwords.get(i))) {
 					this.password = password;
-					this.userIndex = i;
 					if (fileSystemHandler.getCDIRState() == "PENDING") {
 						return "+password ok, send account";
 					}
@@ -131,7 +131,10 @@ public class CredentialsHandler {
 		}
 		else {
 			/* If password matches with account */
-			if (password.equals(passwords.get(userIndex))) {
+			ArrayList<String> accountList = readFile("src/accounts.txt");
+			int accountIndex = accountList.indexOf(account);
+			
+			if (passwords.get(accountIndex).equals(password)) {
 				isAuthorized = true;
 				if (fileSystemHandler.getCDIRState() == "PENDING") {
 					fileSystemHandler.authorizePendingPath();
@@ -148,7 +151,6 @@ public class CredentialsHandler {
 				else {
 					return "-Wrong password, try again";
 				}
-				
 			}
 		}
 	}
