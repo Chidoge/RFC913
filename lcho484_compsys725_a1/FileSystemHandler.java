@@ -230,7 +230,7 @@ public class FileSystemHandler {
 		
 		/* Open file to prepare for deletion */
 		String filename = args[1];
-		String directory = System.getProperty("user.dir") + "/" + filename;
+		String directory = currentDirectory + "/" + filename;
 		File file = new File(directory);
 		
 		if (file.exists()) {
