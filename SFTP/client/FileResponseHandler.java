@@ -18,10 +18,12 @@ public class FileResponseHandler {
 	private String fileToSend = "";
 	private long sendFileSize = 0;
 	
-	public void LIST(BufferedReader inFromServer) throws IOException {
+	public String LIST(BufferedReader inFromServer) throws IOException {
+		
 		String serverResponse;
+		String response = "";
 		while ((serverResponse = inFromServer.readLine()) != null) { 
-			
+			response += serverResponse + "\n";
 			/* Stop printing when no more files to list or if not enough arguments called with LIST*/
 			if (serverResponse.equals("EOF")) {
 				break;
@@ -32,19 +34,20 @@ public class FileResponseHandler {
 			}
 			System.out.println(serverResponse);
 		}
+		return response;
 	}
 	
 	
 	/* Return -1 after calling send to disable flag */
-	public void SEND(BufferedReader inFromServer, Socket socket) throws IOException {
+	public String SEND(BufferedReader inFromServer, Socket socket) throws IOException {
 		
-		String response = inFromServer.readLine();
-		System.out.println(response);
+		String serverResponse = inFromServer.readLine();
+		System.out.println(serverResponse);
 		
 		/* Only save file if RETR was called successfully */
-		if (!response.equals("-Please call RETR first") 
-			&& !response.equals("-send account/password")
-			&& !response.equals("-Invalid command")
+		if (!serverResponse.equals("-Please call RETR first") 
+			&& !serverResponse.equals("-send account/password")
+			&& !serverResponse.equals("-Invalid command")
 		) {
 			InputStream inputStream = socket.getInputStream();
 			OutputStream outputStream = new FileOutputStream(fileToSave);
@@ -75,11 +78,13 @@ public class FileResponseHandler {
 		else {
 			fileSize = -1;
 		}
+		
+		return serverResponse;
 	}
 	
 	
 	/* Handles the server response after calling STOR then SIZE. */
-	private void SIZE(BufferedReader inFromServer, Socket socket) throws IOException {
+	private String SIZE(BufferedReader inFromServer, Socket socket) throws IOException {
 		
 		String serverResponse = inFromServer.readLine();
 		System.out.println(serverResponse);
@@ -121,10 +126,11 @@ public class FileResponseHandler {
 			fileToSend = "";
 			sendFileSize = 0;
 		}
+		return serverResponse;
 	}
 	
 	
-	public void RETR(BufferedReader inFromServer, String[] args) throws IOException {
+	public String RETR(BufferedReader inFromServer, String[] args) throws IOException {
 		
 		String serverResponse = inFromServer.readLine();
 		System.out.println(serverResponse);
@@ -140,10 +146,12 @@ public class FileResponseHandler {
 			fileToSave = args[1];
 			fileSize =  Long.parseLong(serverResponse);
 		}
+		
+		return serverResponse;
 	}
 	
 	
-	public void STOR(BufferedReader inFromServer, String[] args, Socket socket) throws IOException {
+	public String STOR(BufferedReader inFromServer, String[] args, Socket socket) throws IOException {
 		
 		String serverResponse = inFromServer.readLine();
 		System.out.println(serverResponse);
@@ -185,17 +193,21 @@ public class FileResponseHandler {
 				}
 			}
 		}
+		return serverResponse;
 		
 
 	}
 	
-	public void STOP(BufferedReader inFromServer) throws IOException {
+	
+	public String STOP(BufferedReader inFromServer) throws IOException {
 		
 		fileSize = -1;
 		fileToSave = "";
-		String response = inFromServer.readLine();
-		System.out.println(response);
+		String serverResponse = inFromServer.readLine();
+		System.out.println(serverResponse);
+		return serverResponse;
 	}
+	
 	
 	private void writeAndSendSizeToServer(String filesize, Socket socket) throws IOException {
 		

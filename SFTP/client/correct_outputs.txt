@@ -1,0 +1,3 @@
++Account valid, send password
+-Wrong password, try again
+! Logged in

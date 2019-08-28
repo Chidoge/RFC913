@@ -3,20 +3,37 @@ package SFTP.client;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class ClientStateHandler {
+public class ClientTester {
 	
 	private Socket socket;
 	private String[] prevArgs;
-
+	private OutputGenerator tester;
+	
+	private String PATH = System.getProperty("user.dir");
 	private FileResponseHandler fileResponseHandler;
 	
-	public ClientStateHandler(Socket socket) { 
+	public ClientTester(Socket socket, boolean runFromCMD, String[] args) { 
 		this.socket = socket;
 		fileResponseHandler = new FileResponseHandler();
+		
+		if (runFromCMD) {
+			PATH += "/SFTP/client/";
+		}
+		else {
+			PATH +="/src/SFTP/client/";
+		}
+		
+		/* Clear output file */
+		File file = new File(PATH + "/" + "output.txt");
+		file.delete();
+		
+		/* Prepare to generate test commands */
+		tester = new OutputGenerator(PATH, args);
 	}
 
 	public void start() throws IOException {
@@ -47,32 +64,37 @@ public class ClientStateHandler {
 			/* Handles server responses for different commands */
 			switch(prevArgs[0].toUpperCase()) {
 				case "LIST":
-					fileResponseHandler.LIST(inFromServer);
+					saveResp(fileResponseHandler.LIST(inFromServer));
 					break;
 				case "RETR":
-					fileResponseHandler.RETR(inFromServer, prevArgs);
+					saveResp(fileResponseHandler.RETR(inFromServer, prevArgs));
 					break;
 				case "SEND":
-					fileResponseHandler.SEND(inFromServer, socket);
+					saveResp(fileResponseHandler.SEND(inFromServer, socket));
 					break;
 				case "STOR":
-					fileResponseHandler.STOR(inFromServer, prevArgs, socket);
+					saveResp(fileResponseHandler.STOR(inFromServer, prevArgs, socket));
 					break;
 				case "STOP":
-					fileResponseHandler.STOP(inFromServer);
+					saveResp(fileResponseHandler.STOP(inFromServer));
 					break;
 				default:
-					System.out.println(inFromServer.readLine()); 
+					String response = inFromServer.readLine();
+					saveResp(response);
+					System.out.println(response); 
 					break;
 			}
+
 		}
+		
+		tester.compareOutputs();
 	}
 	
 	
 	private String writeAndSendInputToServer(BufferedReader reader, DataOutputStream outToServer) throws IOException {
 		
 		System.out.println("Input: ");
-		String line = reader.readLine();
+		String line = tester.getNext();
 		
 		String[] args = line.split(" ");
 		
@@ -93,6 +115,17 @@ public class ClientStateHandler {
 		outToServer.writeBytes(line + '\n');
 		
 		return line;
+	}
+	
+	
+	/* Save server responses to test behaviour */
+	private void saveResp(String resp) throws IOException {
+		
+		File file = new File(PATH + "/" + "output.txt");
+		FileWriter fileWriter = new FileWriter(file, true);
+		
+		fileWriter.write(resp  + "\n");
+		fileWriter.close();
 	}
 	
 }
