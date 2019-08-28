@@ -271,9 +271,7 @@ public class FileSystemHandler {
 		}
 		
 		if (!client.isAuthorized()) {
-			//TODO
-			//Make sure client handles this
-			return "-Please log in";
+			return "-send account/password";
 		}
 		
 		/* Handle different types of STOR */

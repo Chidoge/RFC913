@@ -27,6 +27,9 @@ public class OutputGenerator {
 			else if (args[0].equals("2"))  {
 				commands = readFile(path + "commands_2.txt");	
 			}
+			else if (args[0].equals("3"))  {
+				commands = readFile(path + "commands_3.txt");	
+			}
 		}
 		else {
 			test_number = "1";
@@ -52,8 +55,11 @@ public class OutputGenerator {
 		if (test_number.equals("1")) {
 			answers = readFile(PATH + "/" + "correct_outputs.txt");
 		}
-		else {
+		else if (test_number.equals("2")) {
 			answers = readFile(PATH + "/" + "correct_outputs_2.txt");
+		}
+		else {
+			answers = readFile(PATH + "/" + "correct_outputs_3.txt");
 		}
 		
 		ArrayList<String> outputs = readFile(PATH + "/" + "output.txt");
@@ -70,8 +76,12 @@ public class OutputGenerator {
 				System.out.println("Expected output was " + answers.get(i) + "\nYour output was " + outputs.get(i));
 			}
 		}
-		
-		System.out.println("\n-----  " + testsPassed + " / " + answers.size() + " TESTS PASSED -----\n\n");
+		if (testsPassed == answers.size()) {
+			System.out.println("\n-----  ALL TESTS PASSED -----\n\n");
+		}
+		else {
+			System.out.println("\n-----  " + testsPassed + " / " + answers.size() + " TESTS PASSED -----\n\n");
+		}
 	}
 	
 	
@@ -90,7 +100,6 @@ public class OutputGenerator {
 			reader.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return results;

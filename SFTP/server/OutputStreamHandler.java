@@ -26,7 +26,6 @@ public class OutputStreamHandler {
 			outToClient.writeBytes(response + "\n");
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
@@ -54,7 +53,6 @@ public class OutputStreamHandler {
 			inputStream.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -66,7 +64,6 @@ public class OutputStreamHandler {
 			DataOutputStream  outToClient = new DataOutputStream(socket.getOutputStream());
 			outToClient.writeBytes("-Invalid command" + '\n');
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
@@ -76,7 +73,6 @@ public class OutputStreamHandler {
 			DataOutputStream  outToClient = new DataOutputStream(socket.getOutputStream());
 			outToClient.writeBytes("+Closing connection " + '\n');
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}

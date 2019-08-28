@@ -1,3 +1,10 @@
+-send account/password
+-send account/password
+-send account/password
 +Account valid, send password
 -Wrong password, try again
-! Logged in
+-Invalid command
++directory ok, send account/password
++account ok, send password
+-invalid password
+!Changed working dir to C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src\SFTP\server

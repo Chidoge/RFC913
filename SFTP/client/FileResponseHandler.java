@@ -66,10 +66,16 @@ public class FileResponseHandler {
 				/* Print download progress for user */
 				if ((double)progress/fileSize * 100 >= nextMilestone) {
 					System.out.println(nextMilestone + "%");
-					if (nextMilestone == 100) {
+					if (nextMilestone >= 100) {
 						System.out.println(fileToSave + " successfully downloaded!");
 					}
-					nextMilestone+=10;
+					if (fileSize < 10) {
+						nextMilestone+=50;
+					}
+					else {
+						nextMilestone+=10;
+					}
+					
 				}
 			}
 			outputStream.close();
@@ -107,7 +113,15 @@ public class FileResponseHandler {
 					progress++;
 					if ((double)progress/sendFileSize * 100 >= nextMilestone) {
 						System.out.println(nextMilestone + "%");
-						nextMilestone+=10;
+						if (nextMilestone >= 100) {
+							System.out.println(fileToSave + " successfully downloaded!");
+						}
+						if (fileSize < 10) {
+							nextMilestone+=50;
+						}
+						else {
+							nextMilestone+=10;
+						}
 					}
 				};
 				outToClient.flush();
@@ -117,7 +131,6 @@ public class FileResponseHandler {
 				System.out.println(serverResponse);
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -194,8 +207,6 @@ public class FileResponseHandler {
 			}
 		}
 		return serverResponse;
-		
-
 	}
 	
 	

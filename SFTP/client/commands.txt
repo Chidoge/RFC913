@@ -1,3 +1,10 @@
+stor new apple.jpg
+stor n apple.jpg
+retr apple.jpg
+acct aa
+pass bb
+stor
+cdir ..
 acct aa
 pass bb
 pass aa

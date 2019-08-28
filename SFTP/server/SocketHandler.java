@@ -14,8 +14,9 @@ public class SocketHandler {
 		this.socket = socket;
 		this.outputStreamHandler = new OutputStreamHandler(socket);
 		
-		boolean runFromCMD = false;
-		/* Handle file paths different depending on where project was run */
+		
+		/* Boolean to test from Eclipse */
+		boolean runFromCMD = true;
 		this.credentialsHandler = new CredentialsHandler(runFromCMD);
 		this.fileSystemHandler = new FileSystemHandler(runFromCMD);
 	}
@@ -86,16 +87,12 @@ public class SocketHandler {
 				}
 				else {
 					outputStreamHandler.writeInvalid();
-				}
-
-								
+				}			
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				try {
 					socket.close();
 					break;
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				e.printStackTrace();
@@ -109,7 +106,6 @@ public class SocketHandler {
 			outputStreamHandler.goodBye();
 			socket.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
