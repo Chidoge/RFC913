@@ -59,6 +59,7 @@ public class OutputGenerator {
 		ArrayList<String> outputs = readFile(PATH + "/" + "output.txt");
 		
 		int testsPassed = 0;
+		System.out.println();
 		for (int i = 0; i < answers.size(); i++) {
 			if (answers.get(i).equals(outputs.get(i))) {
 				System.out.println("TEST " + i + " PASSED");
