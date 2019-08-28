@@ -8,3 +8,8 @@
 +account ok, send password
 -invalid password
 !Changed working dir to C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src\SFTP\server
+-Please call RETR first
+-File doesn't exist
+!Changed working dir to C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src\SFTP\server\fileSystem
+213045
++Sending file

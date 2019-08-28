@@ -1,2 +1,7 @@
+type c
 user guest
+type n
+type c
+stor aassd apple.jpg
+stor new apple.jpg
 DONE

@@ -28,6 +28,8 @@ public class FileSystemHandler {
 	private String STORType = "NONE";
 	private long STORFilesize = 0;
 	private boolean appendFileExists = false;
+
+	private String mode = "Binary";
 	
 	public FileSystemHandler(boolean runFromCMD) {
 		
@@ -295,7 +297,7 @@ public class FileSystemHandler {
 	}
 	
 	
-	/*  */
+	/* Send SIZE to client after calling STOR successfully */
 	public String SIZE(String[] args) {
 		
 		if (STORState.equals("NONE")) {
@@ -316,6 +318,30 @@ public class FileSystemHandler {
 		}
 	}
 	
+
+	/* Switch file mapping type */
+	public String TYPE(String[] args, CredentialsHandler client) {
+
+		if (!client.isAuthorized()) {
+			return "-send account/password";
+		}
+
+		String tempMode = args[1].toUpperCase();
+		if (!tempMode.equals("A") && !tempMode.equals("B") && !tempMode.equals("C")) {
+			return "-Type not valid";
+		}
+		
+		else if (tempMode.equals("A")) {
+			mode = "Ascii";
+		}
+		else if (tempMode.equals("B")) {
+			mode = "Binary";
+		}
+		else {
+			mode = "Continuous";
+		}
+		return "+Using " + mode + " mode";
+	}
 	
 	public String waitFile(Socket socket) throws IOException {
 		

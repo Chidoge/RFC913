@@ -8,4 +8,9 @@ cdir ..
 acct aa
 pass bb
 pass aa
+send
+retr testAppend.txt
+cdir fileSystem
+retr apple.jpg
+send
 DONE

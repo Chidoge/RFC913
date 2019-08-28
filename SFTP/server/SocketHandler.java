@@ -80,6 +80,9 @@ public class SocketHandler {
 								outputStreamHandler.writeResult(fileSystemHandler.waitFile(outputStreamHandler.getSocket()));
 							}
 							break;
+						case "TYPE":
+							outputStreamHandler.writeResult(fileSystemHandler.TYPE(args, credentialsHandler));
+							break;
 						default:
 							outputStreamHandler.writeInvalid();
 							break;

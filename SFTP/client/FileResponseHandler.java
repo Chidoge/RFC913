@@ -114,9 +114,9 @@ public class FileResponseHandler {
 					if ((double)progress/sendFileSize * 100 >= nextMilestone) {
 						System.out.println(nextMilestone + "%");
 						if (nextMilestone >= 100) {
-							System.out.println(fileToSave + " successfully downloaded!");
+							System.out.println(fileToSend + " successfully uploaded!");
 						}
-						if (fileSize < 10) {
+						if (sendFileSize < 10) {
 							nextMilestone+=50;
 						}
 						else {
