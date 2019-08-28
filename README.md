@@ -15,4 +15,5 @@ Instructions:
 1. Make sure you are in the same directory as the Makefile
 2. Open a terminal
 3. Run ```make clean```
-4. Run ```make run_tests```
+4. Run ```make run_server```
+5. Open another separate terminal and in it, type ```make run_tests```
