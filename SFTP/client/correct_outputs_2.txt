@@ -1,6 +1,8 @@
--send account/password
-!guest logged in
--Type not valid
-+Using Continuous mode
--Please specify a valid type
-+File exists, will create new generation of file
+-Invalid command
+-Invalid command
+-Invalid command
+-Invalid command
+-Invalid command
+-Invalid command
+-Invalid command
+

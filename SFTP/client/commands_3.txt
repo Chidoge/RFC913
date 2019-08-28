@@ -1,11 +1,8 @@
-user lol
+user wrong_one
+acct wrong_one
+pass wrong_one
+acct aa
+pass bb
+acct aa
 user guest
-stor new apple.jpg
-kill apple.jpg
-stor new apple.jpg
-name apple.jpg
-tobe i_just_got_renamed.jpg
-name non_existent_name.jpg
-name i_just_got_renamed.jpg
-tobe apple.jpg
-DONE
+done
