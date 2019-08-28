@@ -15,7 +15,7 @@ Works as protocol dictates. You can use ```PASS aa``` to log in.
 ##### You cannot call any of the below commands successfully without authentication
 
 ###### LIST
-Works as protocol dictates. The starting directory is the ROOT + ```SFTP/server/fileSystem``` You can use ```LIST F``` or ```LIST V``` and then pass a **relative path** after it to list the directory.
+Works as protocol dictates. The starting directory is the ROOT + ```SFTP/server/fileSystem```. You can use ```LIST F``` or ```LIST V``` and then pass a **relative path** after it to list the directory.
 
 ###### TYPE
 Works as protocol dictates.
