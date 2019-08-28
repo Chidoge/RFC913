@@ -56,6 +56,8 @@ Instructions:
 3. Run ```make clean```
 4. Run ```make run_server```
 5. Open another separate terminal and in it, type ```make run_tests```
+6. Tests should take about 10-15 seconds to finish running.
+**Note: Since server output is also printed to the terminal, you need to scroll a bit through the terminal output to check the results of the tests.**
 
 ## About the test suite
 
