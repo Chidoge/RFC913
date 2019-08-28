@@ -1,9 +1,7 @@
-package lcho484_compsys725_a1;
+package server;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -28,6 +26,14 @@ public class FileSystemHandler {
 	private String STORState = "NONE";
 	private String STORType = "NONE";
 	private long STORFilesize = 0;
+	
+	public FileSystemHandler(boolean flag) {
+		
+		/* Enable path extension if not run from eclipse */
+		if (flag) {
+			currentDirectory += "/server/fileSystem";
+		}
+	}
 	
 	
 	public String CDIR(String[] args, CredentialsHandler client) {
@@ -71,16 +77,16 @@ public class FileSystemHandler {
 			return "-send account/password\r\nEOF";
 		}
 		
-		String response = "-Invalid command";
-		
 		String format = args[1].toUpperCase();
-		String directory = currentDirectory;
-		
-		/* Only load custom directory path is argument is passed */
-		if (args.length > 2) {
-			directory = currentDirectory + "/" + args[2];
+		if (!format.equals("F") && !format.equals("V")) {
+			return "-Please select a valid format\nEOF";
 		}
 		
+		String response = "-Invalid command";
+		
+		/* Only load custom directory path is argument is passed */
+		String directory = args.length > 2 ? currentDirectory + "/" + args[2] : currentDirectory;
+
 		/* Get files in file directory */
 		File fileDirectory = new File(directory);
 		
@@ -114,7 +120,7 @@ public class FileSystemHandler {
 			return response;
 		}
 		else {
-			return "-" + currentDirectory + "/" + args[2] +" does not exist\r\nEOF";
+			return "-" + directory +" does not exist\r\nEOF";
 		}
 
 	}
@@ -310,19 +316,17 @@ public class FileSystemHandler {
 		
 		if (STORType.equals("APP")) {
 			InputStream inputStream = socket.getInputStream();
-			File file = new File(STORFilename);
-			FileWriter fileWriter = new FileWriter(file, true);
-			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			OutputStream outputStream = new FileOutputStream( new File(STORFilename), true);
 			
 			int i = 0;
 			int count = 0;
 			byte[] buffer = new byte[1];
 			while (i < STORFilesize) {
 				count = inputStream.read(buffer);
-				bufferedWriter.write(buffer.toString());
+				outputStream.write(buffer, 0, count);
 				count++;
 			}
-			bufferedWriter.close();
+			outputStream.close();
 			return "+Saved " + STORFilename;
 		}
 		else {
@@ -347,6 +351,7 @@ public class FileSystemHandler {
 	public String newHandler(String filename) {
 		File file = new File(currentDirectory + "/" + filename);
 		if (!file.exists()) {
+			STORFilename = currentDirectory + "/" + filename;
 			return "+File does not exist, will create new file";
 			
 		}
@@ -377,7 +382,7 @@ public class FileSystemHandler {
 		File file = new File(currentDirectory + "/" + filename); 
 		STORFilename = currentDirectory + "/" + filename;
 		
-		return !file.exists() ? "+Will create new file" : "+Will write over new file";
+		return !file.exists() ? "+Will create new file" : "+Will write over old file";
 	
 	}
 	

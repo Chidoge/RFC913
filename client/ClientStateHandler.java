@@ -1,4 +1,4 @@
-package lcho484_compsys725_a1;
+package client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -77,7 +77,7 @@ public class ClientStateHandler {
 		String[] args = line.split(" ");
 		
 		/* If calling STOR, make sure the file exists on the client side */
-		if (args.length > 1 && args[0].toUpperCase().equals("STOR")) {
+		if (args.length >= 3 && args[0].toUpperCase().equals("STOR")) {
 			String filename = args[2];
 			File file = new File(filename);
 			if (!file.exists()) {

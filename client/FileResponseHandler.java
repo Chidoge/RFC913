@@ -1,4 +1,4 @@
-package lcho484_compsys725_a1;
+package client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -147,41 +147,45 @@ public class FileResponseHandler {
 		String serverResponse = inFromServer.readLine();
 		System.out.println(serverResponse);
 		
-		/* Handle different responses depending on type for STOR*/
-		String type = args[1].toUpperCase();
-		if (type.equals("NEW")) {
-			if (serverResponse.equals("+File exists, will create new generation of file") ||
-				serverResponse.equals("+File does not exist will create new file")) {
-				File file = new File(args[2]);
-				sendFileSize = file.length();
-				fileToSend = args[2];
-				
-				writeAndSendSizeToServer(Long.toString(sendFileSize), socket);
-				SIZE(inFromServer, socket);
-			}			
-		}
-		else if (type.equals("OLD")) {
-			if (serverResponse.equals("+Will write over old file") ||
-				serverResponse.equals("+Will create new file")) {
-				File file = new File(args[2]);
-				sendFileSize = file.length();
-				fileToSend = args[2];
-				
-				writeAndSendSizeToServer(Long.toString(sendFileSize), socket);
-				SIZE(inFromServer, socket);
+		if (args.length >= 3) {
+			/* Handle different responses depending on type for STOR*/
+			String type = args[1].toUpperCase();
+			if (type.equals("NEW")) {
+				if (serverResponse.equals("+File exists, will create new generation of file") ||
+					serverResponse.equals("+File does not exist, will create new file")) {
+					File file = new File(args[2]);
+					sendFileSize = file.length();
+					fileToSend = args[2];
+					
+					writeAndSendSizeToServer(Long.toString(sendFileSize), socket);
+					SIZE(inFromServer, socket);
+				}			
+			}
+			else if (type.equals("OLD")) {
+				if (serverResponse.equals("+Will write over old file") ||
+					serverResponse.equals("+Will create new file")) {
+					File file = new File(args[2]);
+					sendFileSize = file.length();
+					fileToSend = args[2];
+					
+					writeAndSendSizeToServer(Long.toString(sendFileSize), socket);
+					SIZE(inFromServer, socket);
+				}
+			}
+			else if (type.equals("APP")) {
+				if (serverResponse.equals("+Will append to file") ||
+					serverResponse.equals("+Will create file")) {
+					File file = new File(args[2]);
+					sendFileSize = file.length();
+					fileToSend = args[2];
+					
+					writeAndSendSizeToServer(Long.toString(sendFileSize), socket);
+					SIZE(inFromServer, socket);	
+				}
 			}
 		}
-		else if (type.equals("APP")) {
-			if (serverResponse.equals("+Will append to file") ||
-				serverResponse.equals("+Will create file")) {
-				File file = new File(args[2]);
-				sendFileSize = file.length();
-				fileToSend = args[2];
-				writeAndSendSizeToServer(Long.toString(sendFileSize), socket);
-				SIZE(inFromServer, socket);	
-			}
+		
 
-		}
 	}
 	
 	public void STOP(BufferedReader inFromServer) throws IOException {
@@ -192,10 +196,11 @@ public class FileResponseHandler {
 		System.out.println(response);
 	}
 	
-	private void writeAndSendSizeToServer(String out, Socket socket) throws IOException {
+	private void writeAndSendSizeToServer(String filesize, Socket socket) throws IOException {
+		
 		
 		/* Write to server */
-		String line = "SIZE " + Long.toString(sendFileSize);
+		String line = "SIZE " + filesize;
 		DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
 		outToServer.writeBytes(line + '\n');
 	}

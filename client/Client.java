@@ -1,4 +1,4 @@
-package lcho484_compsys725_a1;
+package client;
 
 import java.net.*;
 

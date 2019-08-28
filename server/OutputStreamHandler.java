@@ -1,4 +1,4 @@
-package lcho484_compsys725_a1;
+package server;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;

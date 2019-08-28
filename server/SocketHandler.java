@@ -1,4 +1,4 @@
-package lcho484_compsys725_a1;
+package server;
 
 import java.io.*;
 import java.net.*;
@@ -10,12 +10,13 @@ public class SocketHandler {
 	private CredentialsHandler credentialsHandler;
 	private FileSystemHandler fileSystemHandler;
 	
-	
 	public SocketHandler(Socket socket) {
 		this.socket = socket;
 		this.outputStreamHandler = new OutputStreamHandler(socket);
-		this.credentialsHandler = new CredentialsHandler();
-		this.fileSystemHandler = new FileSystemHandler();
+		
+		boolean runFromCMD = false;
+		this.credentialsHandler = new CredentialsHandler(runFromCMD);
+		this.fileSystemHandler = new FileSystemHandler(runFromCMD);
 	}
 	
 	public void start() throws IOException {
