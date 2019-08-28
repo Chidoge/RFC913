@@ -1,2 +1,10 @@
 -Invalid user-id, try again
 !guest logged in
++File exists, will create new generation of file
++apple.jpg deleted
++File does not exist, will create new file
++File exists
+apple.jpg renamed to i_just_got_renamed.jpg
+-Can't find C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src/SFTP/server/fileSystem/non_existent_name.jpg
++File exists
+i_just_got_renamed.jpg renamed to apple.jpg

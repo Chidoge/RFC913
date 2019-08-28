@@ -9,7 +9,7 @@ acct aa
 pass bb
 pass aa
 send
-retr testAppend.txt
+retr apple.jpg
 cdir fileSystem
 retr apple.jpg
 send

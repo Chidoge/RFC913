@@ -68,11 +68,11 @@ public class OutputGenerator {
 		System.out.println();
 		for (int i = 0; i < answers.size(); i++) {
 			if (answers.get(i).equals(outputs.get(i))) {
-				System.out.println("TEST " + i + " PASSED");
+				System.out.println("TEST " + (i+1) + " PASSED");
 				testsPassed++;
 			}
 			else {
-				System.out.println("TEST " + i + " FAILED: ");
+				System.out.println("TEST " + (i+1) + " FAILED: ");
 				System.out.println("Expected output was " + answers.get(i) + "\nYour output was " + outputs.get(i));
 			}
 		}
