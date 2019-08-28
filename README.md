@@ -1,5 +1,7 @@
 # COMPSYS725 Assignment 1
 
+**Default port is 3000**
+
 ## Notes about my commands
 **The commands themselves are not case sensitive, so instead of USER you can type user, instead of LIST V, you can type list v, however please note that directories or filenames passed as arguments ARE case-sensitive.**    
 
