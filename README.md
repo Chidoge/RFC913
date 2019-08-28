@@ -21,12 +21,12 @@ Instructions:
 ## About the test suite
 
 ###### Test commands part 1
-The first set of test commands focus primarily on calling commands that cannot be called before the using is authenticated by logging on. The server should respond by rejecting these commands.    
+The first set of test commands focus primarily on calling commands that cannot be called before the user is authenticated by logging on. The server should respond by rejecting these commands.    
 It then tests the user-authenticated-only commands after the user has logged in, i.e - it tests RETR, SEND, NAME, KILL and STOR.
 
 ###### Test commands part 2
 The second set of test commands focus on calling commands without enough arguments.
 
-##### Test commands part 3
+###### Test commands part 3
 The third set of test commands focus on authenticating the user with invalid credentials, and then tests them with correct credentials.
 
