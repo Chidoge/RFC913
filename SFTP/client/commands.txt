@@ -1,6 +1,9 @@
 stor new apple.jpg
-stor n apple.jpg
 retr apple.jpg
+list f
+kill apple.jpg
+name apple.jpg
+type c
 acct aa
 pass bb
 stor
@@ -8,9 +11,14 @@ cdir ..
 acct aa
 pass bb
 pass aa
-send
-retr apple.jpg
+type a
 cdir fileSystem
 retr apple.jpg
 send
+name apple.jpg
+tobe hi.jpg
+name hi.jpg
+tobe apple.jpg
+kill apple.jpg
+stor new apple.jpg
 DONE

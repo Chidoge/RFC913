@@ -1,6 +1,11 @@
 -send account/password
 -send account/password
 -send account/password
+EOF
+
+-send account/password
+-send account/password
+-send account/password
 +Account valid, send password
 -Wrong password, try again
 -Invalid command
@@ -8,8 +13,13 @@
 +account ok, send password
 -invalid password
 !Changed working dir to C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src\SFTP\server
--Please call RETR first
--File doesn't exist
++Using Ascii mode
 !Changed working dir to C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src\SFTP\server\fileSystem
 213045
 +Sending file
++File exists
+apple.jpg renamed to hi.jpg
++File exists
+hi.jpg renamed to apple.jpg
++apple.jpg deleted
++File does not exist, will create new file
