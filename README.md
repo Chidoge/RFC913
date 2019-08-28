@@ -1,7 +1,7 @@
 # COMPSYS725 Assignment 1
 
 ## Notes about my commands
-**The commands themselves are not case sensitive, so instead of USER you can type user, instead of LIST V, you can type list v, but directories or filenames ARE case-sensitive.**    
+**The commands themselves are not case sensitive, so instead of USER you can type user, instead of LIST V, you can type list v, however please note that directories or filenames passed as arguments ARE case-sensitive.**    
 
 ###### USER
 This doesn't authenticate the user unless you run ```USER guest```.
