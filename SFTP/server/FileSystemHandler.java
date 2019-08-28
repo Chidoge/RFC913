@@ -12,6 +12,7 @@ import java.util.Date;
 
 public class FileSystemHandler {
 	
+	private String defaultDirectory = System.getProperty("user.dir");
 	private String currentDirectory = System.getProperty("user.dir");
 	private String fileToRename = "";
 	
@@ -31,10 +32,13 @@ public class FileSystemHandler {
 		
 		/* Enable path extension if not run from eclipse */
 		if (runFromCMD) {
-			currentDirectory += "/SFTP/server/fileSystem";
+			defaultDirectory += "/SFTP/server/fileSystem";
+			currentDirectory = defaultDirectory;
+			
 		}
 		else {
-			currentDirectory += "/src/SFTP/server/fileSystem";
+			defaultDirectory += "/src/SFTP/server/fileSystem";
+			currentDirectory = defaultDirectory;
 		}
 	}
 	
@@ -301,7 +305,7 @@ public class FileSystemHandler {
 		
 		/* Check if disk has sufficient space */
 		STORFilesize = Long.parseLong(args[1]);
-		File directory = new File(currentDirectory);
+		File directory = new File(defaultDirectory);
 		
 		if (directory.getFreeSpace() >= STORFilesize) {
 			STORState = "WAITING";
@@ -352,9 +356,9 @@ public class FileSystemHandler {
 	
 	
 	public String newHandler(String filename) {
-		File file = new File(currentDirectory + "/" + filename);
+		File file = new File(defaultDirectory + "/" + filename);
 		if (!file.exists()) {
-			STORFilename = currentDirectory + "/" + filename;
+			STORFilename = defaultDirectory + "/" + filename;
 			return "+File does not exist, will create new file";
 			
 		}
@@ -366,10 +370,10 @@ public class FileSystemHandler {
 				String newFilename = filename.substring(0, cutOffPoint) + 
 									"(" + Integer.toString(i) + ")" +
 									filename.substring(cutOffPoint, filename.length());
-				File testFile = new File(currentDirectory + "/" + newFilename);
+				File testFile = new File(defaultDirectory + "/" + newFilename);
 				
 				if (!testFile.exists()) {
-					STORFilename = currentDirectory + "/" + newFilename;
+					STORFilename = defaultDirectory + "/" + newFilename;
 					return "+File exists, will create new generation of file";
 				}
 			}
@@ -382,8 +386,8 @@ public class FileSystemHandler {
 	
 	public String oldHandler(String filename) {
 		
-		File file = new File(currentDirectory + "/" + filename); 
-		STORFilename = currentDirectory + "/" + filename;
+		File file = new File(defaultDirectory + "/" + filename); 
+		STORFilename = defaultDirectory + "/" + filename;
 		
 		return !file.exists() ? "+Will create new file" : "+Will write over old file";
 	
@@ -401,7 +405,7 @@ public class FileSystemHandler {
 			return "-Can only use APP on text files";
 		}
 		
-		File file = new File(currentDirectory + "/" + filename);
+		File file = new File(defaultDirectory + "/" + filename);
 		
 		if (!file.exists()) {
 			return "+Will create file";
