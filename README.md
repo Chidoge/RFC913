@@ -30,3 +30,11 @@ The second set of test commands focus on calling commands without enough argumen
 ###### Test commands part 3
 The third set of test commands focus on authenticating the user with invalid credentials, and then tests them with correct credentials.
 
+###### Test commands part 4
+The fourth set of test commands test the KILL and NAME commands with non-existent and existing file names. Also tests TOBE without calling NAME in advance.
+
+###### Test commands part 5
+The fifth set of test commands test the LIST and CDIR commands more extensively. This includes - invalid list types, listing non-existent directories, and trying to CDIR into non-existing directories.
+
+###### Test commands part 6
+The fifth set of test commands test the STOR and RETR commands more extensively. This includes retrieving non-existent files, retrieving existing files, and all the different types of STOR. Also tests calling SEND/STOP before RETR, and SIZE before STOR
