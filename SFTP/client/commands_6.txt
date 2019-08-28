@@ -1,0 +1,15 @@
+user guest
+retr non_existent_file_name
+send
+retr apple.jpg
+send
+size 191239
+stop
+send
+stor old apple.jpg
+stor new apple.jpg
+kill apple(1).jpg
+kill apple.jpg
+stor new apple.jpg
+stor app testAppend.txt
+done

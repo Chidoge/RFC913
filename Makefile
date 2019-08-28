@@ -15,6 +15,9 @@ run_tests:
 	java SFTP.client.Test 1
 	java SFTP.client.Test 2
 	java SFTP.client.Test 3
+	java SFTP.client.Test 4
+	java SFTP.client.Test 5
+	java SFTP.client.Test 6
 
 clean: 
 	rm SFTP/client/*.class

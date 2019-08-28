@@ -1,0 +1,12 @@
+cdir ..
+acct aa
+pass aa
+list f
+list f fileSystem
+list wrong_param
+list wrong_param non_existent_folder
+list f non_existent_folder
+list v non_existent_folder
+cdir wrong_folder
+cdir fileSystem
+done

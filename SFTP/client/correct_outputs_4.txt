@@ -1,0 +1,10 @@
+!guest logged in
+-File wasn't renamed because you have not specified a file to rename
++File exists
+apple.jpg renamed to hi.jpg
+-Can't find C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src/SFTP/server/fileSystem/wrong_name.jpg
++File exists
+hi.jpg renamed to apple.jpg
+-wrong_name.jpg does not exist
++apple.jpg deleted
++File does not exist, will create new file

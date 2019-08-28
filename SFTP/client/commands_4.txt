@@ -1,1 +1,11 @@
 user guest
+tobe apple.jpg
+name apple.jpg
+tobe hi.jpg
+name wrong_name.jpg
+name hi.jpg
+tobe apple.jpg
+kill wrong_name.jpg
+kill apple.jpg
+stor new apple.jpg
+done

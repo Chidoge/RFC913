@@ -30,13 +30,22 @@ public class OutputGenerator {
 			else if (args[0].equals("3"))  {
 				commands = readFile(path + "commands_3.txt");	
 			}
+			else if (args[0].equals("4")) {
+				commands = readFile(path + "commands_4.txt");
+			}
+			else if (args[0].equals("5")) {
+				commands = readFile(path + "commands_5.txt");
+			}
+			else if (args[0].equals("6")) {
+				commands = readFile(path + "commands_6.txt");
+			}
 		}
 		else {
 			test_number = "1";
 			commands = readFile(path + "commands.txt");	
 		}
 		
-		System.out.println("\n----- RUNNING " + (commands.size() -1) + " COMMANDS -----\n");
+		System.out.println("\n------------------------- RUNNING " + (commands.size() -1) + " COMMANDS -------------------------\n");
 		
 	}
 
@@ -58,8 +67,17 @@ public class OutputGenerator {
 		else if (test_number.equals("2")) {
 			answers = readFile(PATH + "/" + "correct_outputs_2.txt");
 		}
-		else {
+		else if (test_number.equals("3")) {
 			answers = readFile(PATH + "/" + "correct_outputs_3.txt");
+		}
+		else if (test_number.equals("4")) {
+			answers = readFile(PATH + "/" + "correct_outputs_4.txt");
+		}
+		else if (test_number.equals("5")) {
+			answers = readFile(PATH + "/" + "correct_outputs_5.txt");
+		}
+		else {
+			answers = readFile(PATH + "/" + "correct_outputs_6.txt");
 		}
 		
 		ArrayList<String> outputs = readFile(PATH + "/" + "output.txt");
@@ -77,10 +95,10 @@ public class OutputGenerator {
 			}
 		}
 		if (testsPassed == answers.size()) {
-			System.out.println("\n-----  ALL TESTS PASSED -----\n\n");
+			System.out.println("\n-------------------------  ALL TESTS PASSED -------------------------\n");
 		}
 		else {
-			System.out.println("\n-----  " + testsPassed + " / " + answers.size() + " TESTS PASSED -----\n\n");
+			System.out.println("\n-------------------------  " + testsPassed + " / " + answers.size() + " TESTS PASSED -------------------------\n");
 		}
 	}
 	

@@ -1,0 +1,36 @@
++directory ok, send account/password
++account ok, send password
+!Changed working dir to C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src\SFTP\server
+CredentialsHandler.class
+CredentialsHandler.java
+data
+fileSystem
+FileSystemHandler.class
+FileSystemHandler.java
+OutputStreamHandler.class
+OutputStreamHandler.java
+Server.class
+Server.java
+SocketHandler.class
+SocketHandler.java
+EOF
+
+apple.jpg
+orange.jpg
+testAppend.txt
+EOF
+
+-Please select a valid format
+EOF
+
+-Please select a valid format
+EOF
+
+-C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src\SFTP\server\fileSystem\../non_existent_folder does not exist
+EOF
+
+-C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src\SFTP\server\fileSystem\../non_existent_folder does not exist
+EOF
+
+-Can't connect to directory because: Directory does not exist
+!Changed working dir to C:\Users\linco\Downloads\725\lcho484_compsys725_a1\src\SFTP\server\fileSystem
