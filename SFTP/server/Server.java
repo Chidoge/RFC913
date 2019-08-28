@@ -1,4 +1,4 @@
-package server;
+package SFTP.server;
 
 import java.io.*;
 import java.net.*;

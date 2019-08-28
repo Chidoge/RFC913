@@ -1,14 +1,15 @@
 default: 
-	javac client/*.java 
-	javac server/*.java
+	javac SFTP/client/*.java 
+	javac SFTP/server/*.java
 
 run_server:
-	javac server/*.java
-	java server.Server
+	javac SFTP/server/*.java
+	java SFTP.server.Server
 
 run_client: 
-	javac client/*.java
-	java client.Client
+	javac SFTP/client/*.java
+	java SFTP.client.Client
 
 clean: 
-	rm *.class
+	rm SFTP/client/*.class
+	rm SFTP/server/*.class

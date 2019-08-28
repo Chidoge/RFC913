@@ -1,4 +1,4 @@
-package server;
+package SFTP.server;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,11 +27,14 @@ public class FileSystemHandler {
 	private String STORType = "NONE";
 	private long STORFilesize = 0;
 	
-	public FileSystemHandler(boolean flag) {
+	public FileSystemHandler(boolean runFromCMD) {
 		
 		/* Enable path extension if not run from eclipse */
-		if (flag) {
-			currentDirectory += "/server/fileSystem";
+		if (runFromCMD) {
+			currentDirectory += "/SFTP/server/fileSystem";
+		}
+		else {
+			currentDirectory += "/src/SFTP/server/fileSystem";
 		}
 	}
 	

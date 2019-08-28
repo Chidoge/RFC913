@@ -1,4 +1,4 @@
-package client;
+package SFTP.client;
 
 import java.net.*;
 

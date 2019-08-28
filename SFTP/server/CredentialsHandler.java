@@ -1,4 +1,4 @@
-package server;
+package SFTP.server;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,21 +7,19 @@ import java.util.ArrayList;
 
 public class CredentialsHandler {
 	
-	private static String PATH_EXTENSION = "";
+	private String PATH = System.getProperty("user.dir");
 	
 	private String ID = null;
 	private String account = null;
 	private String password = null;
 	private boolean isAuthorized = false;
 	
-	public CredentialsHandler(boolean flag) {
-		
-		/* Enable path extension if not run from eclipse */
-		if (flag) {
-			PATH_EXTENSION = System.getProperty("user.dir") + "/server/data/";
+	public CredentialsHandler(boolean runFromCMD) {
+		if (runFromCMD) {
+			PATH += "/SFTP/server/data/";
 		}
 		else {
-			PATH_EXTENSION = "src/";
+			PATH +="/src/SFTP/server/data/";
 		}
 	}
 	
@@ -29,7 +27,7 @@ public class CredentialsHandler {
 
 		String userID = args[1];
 		
-		ArrayList<String> userList = readFile(PATH_EXTENSION + "users.txt");
+		ArrayList<String> userList = readFile(PATH + "users.txt");
 		
 		for (int i = 0; i < userList.size(); i++) {
 			if (userID.equals(userList.get(i))) {
@@ -57,7 +55,7 @@ public class CredentialsHandler {
 		
 		String accountName = args[1];
 		
-		ArrayList<String> accountList = readFile(PATH_EXTENSION + "accounts.txt");
+		ArrayList<String> accountList = readFile(PATH + "accounts.txt");
 		
 		if (password == null) {
 			/* Check if account exists, if it does, set the account*/
@@ -83,7 +81,7 @@ public class CredentialsHandler {
 		}
 		/* If account matches with password */
 		else {
-			ArrayList<String> passwords = readFile(PATH_EXTENSION + "passwords.txt");
+			ArrayList<String> passwords = readFile(PATH + "passwords.txt");
 			int accountIndex = accountList.indexOf(accountName);
 			
 			if (passwords.get(accountIndex).equals(password)) {
@@ -114,7 +112,7 @@ public class CredentialsHandler {
 		
 		String password = args[1];
 		
-		ArrayList<String> passwords = readFile(PATH_EXTENSION + "passwords.txt");
+		ArrayList<String> passwords = readFile(PATH + "passwords.txt");
 		
 		if (account == null) {
 			/* Check if password exists, if it does, set the password*/
@@ -140,7 +138,7 @@ public class CredentialsHandler {
 		}
 		else {
 			/* If password matches with account */
-			ArrayList<String> accountList = readFile(PATH_EXTENSION + "accounts.txt");
+			ArrayList<String> accountList = readFile(PATH + "accounts.txt");
 			int accountIndex = accountList.indexOf(account);
 			
 			if (passwords.get(accountIndex).equals(password)) {

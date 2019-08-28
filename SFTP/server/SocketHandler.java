@@ -1,4 +1,4 @@
-package server;
+package SFTP.server;
 
 import java.io.*;
 import java.net.*;
@@ -14,7 +14,8 @@ public class SocketHandler {
 		this.socket = socket;
 		this.outputStreamHandler = new OutputStreamHandler(socket);
 		
-		boolean runFromCMD = false;
+		boolean runFromCMD = true;
+		/* Handle file paths different depending on where project was run */
 		this.credentialsHandler = new CredentialsHandler(runFromCMD);
 		this.fileSystemHandler = new FileSystemHandler(runFromCMD);
 	}
