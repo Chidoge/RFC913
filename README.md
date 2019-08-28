@@ -76,7 +76,7 @@ The third set of test commands focus on authenticating the user with invalid cre
 The fourth set of test commands test the KILL and NAME commands with non-existent and existing file names. Also tests TOBE without calling NAME in advance.
 
 ###### Test commands part 5
-The fifth set of test commands test the LIST and CDIR commands more extensively. This includes - invalid list types, listing non-existent directories, and trying to CDIR into non-existing directories.
+The fifth set of test commands test the LIST and CDIR commands more extensively. This includes - invalid list types, listing non-existent directories, and trying to CDIR into non-existing directories. LIST V is not tested here because the last modification date will always cause the test case to fail due to the constant reading and writing. This needs to be tested manually.
 
 ###### Test commands part 6
 The fifth set of test commands test the STOR and RETR commands more extensively. This includes retrieving non-existent files, retrieving existing files, and all the different types of STOR. Also tests calling SEND/STOP before RETR, and SIZE before STOR.
