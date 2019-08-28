@@ -1,5 +1,44 @@
 # COMPSYS725 Assignment 1
 
+## Notes about my commands
+**The commands themselves are not case sensitive, so instead of USER you can type user, instead of LIST V, you can type list v, but directories or filenames ARE case-sensitive.**    
+
+###### USER
+This doesn't authenticate the user unless you run ```USER guest```.
+
+##### ACCT
+Works as protocol dictates. You can use ```ACCT aa``` to log in.
+
+##### PASS
+Works as protocol dictates. You can use ```PASS aa``` to log in.
+
+##### You cannot call any of the below commands successfully without authentication
+
+##### LIST
+Works as protocol dictates. You can use ```LIST F``` or ```LIST V``` and then pass a **relative path** after it to list the directory.
+
+##### TYPE
+Works as protocol dictates.
+
+#### CDIR
+Works as protocol dictates. You can CDIR before authenticating, but you **MUST** call ACCT/PASS to CDIR into the directory that you specified before authenticating (you cannot substitute this step with ```USER guest```, you must use ACCT/PASS).    
+Other thing to note is that this command takes **relative pathing**, so you can run ```CDIR ..``` to go up a level. This command does not work if you pass it an absolute path.
+
+##### NAME/TOBE
+Works as protocol dictates. You cannot call TOBE without first calling NAME successfully.
+
+##### KILL
+Works as protocol dictates.
+
+##### RETR/SEND/STOP
+Works as protocol dictates. You cannot call SEND/STOP without first calling RETR succesfully.
+
+##### STOR/SIZE
+Works as protocol dictates. The client will automatically call SIZE after a successful STOR call. But the user may not call SIZE without first calling  STOR successfully.
+
+##### DONE
+Works as protocol dictates.
+
 ## Using the program    
 Instructions:
 1. Make sure you are in the same directory as the Makefile
@@ -37,4 +76,4 @@ The fourth set of test commands test the KILL and NAME commands with non-existen
 The fifth set of test commands test the LIST and CDIR commands more extensively. This includes - invalid list types, listing non-existent directories, and trying to CDIR into non-existing directories.
 
 ###### Test commands part 6
-The fifth set of test commands test the STOR and RETR commands more extensively. This includes retrieving non-existent files, retrieving existing files, and all the different types of STOR. Also tests calling SEND/STOP before RETR, and SIZE before STOR
+The fifth set of test commands test the STOR and RETR commands more extensively. This includes retrieving non-existent files, retrieving existing files, and all the different types of STOR. Also tests calling SEND/STOP before RETR, and SIZE before STOR.
