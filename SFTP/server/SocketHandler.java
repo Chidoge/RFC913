@@ -14,7 +14,7 @@ public class SocketHandler {
 		this.socket = socket;
 		this.outputStreamHandler = new OutputStreamHandler(socket);
 		
-		boolean runFromCMD = true;
+		boolean runFromCMD = false;
 		/* Handle file paths different depending on where project was run */
 		this.credentialsHandler = new CredentialsHandler(runFromCMD);
 		this.fileSystemHandler = new FileSystemHandler(runFromCMD);

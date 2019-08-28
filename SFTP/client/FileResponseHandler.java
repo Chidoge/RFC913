@@ -93,11 +93,12 @@ public class FileResponseHandler {
 				
 				byte[] buffer = new byte[1];
 				int progress = 0;
-				int read = 0;
+				int count = 0;
 				int nextMilestone = 0;
 				
-				while ((read = inputStream.read(buffer)) > 0) {
-					outToClient.write(buffer, 0, read);
+				/* Send file and update user on upload progress */
+				while ((count = inputStream.read(buffer)) > 0) {
+					outToClient.write(buffer, 0, count);
 					progress++;
 					if ((double)progress/sendFileSize * 100 >= nextMilestone) {
 						System.out.println(nextMilestone + "%");

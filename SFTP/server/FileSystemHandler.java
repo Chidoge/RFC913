@@ -27,6 +27,7 @@ public class FileSystemHandler {
 	private String STORState = "NONE";
 	private String STORType = "NONE";
 	private long STORFilesize = 0;
+	private boolean appendFileExists = false;
 	
 	public FileSystemHandler(boolean runFromCMD) {
 		
@@ -315,7 +316,6 @@ public class FileSystemHandler {
 			STORState = "NONE";
 			return "-Not enough room, don't send it";
 		}
-
 	}
 	
 	
@@ -323,15 +323,15 @@ public class FileSystemHandler {
 		
 		if (STORType.equals("APP")) {
 			InputStream inputStream = socket.getInputStream();
-			OutputStream outputStream = new FileOutputStream( new File(STORFilename), true);
-			
+			OutputStream outputStream = new FileOutputStream(new File(STORFilename), appendFileExists);
+		
 			int i = 0;
 			int count = 0;
 			byte[] buffer = new byte[1];
 			while (i < STORFilesize) {
 				count = inputStream.read(buffer);
 				outputStream.write(buffer, 0, count);
-				count++;
+				i++;
 			}
 			outputStream.close();
 			return "+Saved " + STORFilename;
@@ -389,6 +389,7 @@ public class FileSystemHandler {
 		File file = new File(defaultDirectory + "/" + filename); 
 		STORFilename = defaultDirectory + "/" + filename;
 		
+		
 		return !file.exists() ? "+Will create new file" : "+Will write over old file";
 	
 	}
@@ -406,6 +407,9 @@ public class FileSystemHandler {
 		}
 		
 		File file = new File(defaultDirectory + "/" + filename);
+		
+		appendFileExists = file.exists();
+		STORFilename =  defaultDirectory + "/" + filename; 
 		
 		if (!file.exists()) {
 			return "+Will create file";
