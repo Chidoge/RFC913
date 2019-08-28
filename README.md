@@ -6,37 +6,37 @@
 ###### USER
 This doesn't authenticate the user unless you run ```USER guest```.
 
-##### ACCT
+###### ACCT
 Works as protocol dictates. You can use ```ACCT aa``` to log in.
 
-##### PASS
+###### PASS
 Works as protocol dictates. You can use ```PASS aa``` to log in.
 
 ##### You cannot call any of the below commands successfully without authentication
 
-##### LIST
+###### LIST
 Works as protocol dictates. You can use ```LIST F``` or ```LIST V``` and then pass a **relative path** after it to list the directory.
 
-##### TYPE
+###### TYPE
 Works as protocol dictates.
 
-#### CDIR
+###### CDIR
 Works as protocol dictates. You can CDIR before authenticating, but you **MUST** call ACCT/PASS to CDIR into the directory that you specified before authenticating (you cannot substitute this step with ```USER guest```, you must use ACCT/PASS).    
 Other thing to note is that this command takes **relative pathing**, so you can run ```CDIR ..``` to go up a level. This command does not work if you pass it an absolute path.
 
-##### NAME/TOBE
+###### NAME/TOBE
 Works as protocol dictates. You cannot call TOBE without first calling NAME successfully.
 
-##### KILL
+###### KILL
 Works as protocol dictates.
 
-##### RETR/SEND/STOP
+###### RETR/SEND/STOP
 Works as protocol dictates. You cannot call SEND/STOP without first calling RETR succesfully.
 
-##### STOR/SIZE
+###### STOR/SIZE
 Works as protocol dictates. The client will automatically call SIZE after a successful STOR call. But the user may not call SIZE without first calling  STOR successfully.
 
-##### DONE
+###### DONE
 Works as protocol dictates.
 
 ## Using the program    
