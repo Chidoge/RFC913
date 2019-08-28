@@ -17,7 +17,7 @@ Works as protocol dictates. You can use ```PASS aa``` to log in.
 ##### You cannot call any of the below commands successfully without authentication
 
 ###### LIST
-Works as protocol dictates. The starting directory is the ROOT + ```SFTP/server/fileSystem```. You can use ```LIST F``` or ```LIST V``` and then pass a **relative path** after it to list the directory.
+Works as protocol dictates. The starting directory is the root folder + ```SFTP/server/fileSystem```. You can use ```LIST F``` or ```LIST V``` and then pass a **relative path** after it to list the directory.
 
 ###### TYPE
 Works as protocol dictates.
@@ -33,10 +33,10 @@ Works as protocol dictates. You cannot call TOBE without first calling NAME succ
 Works as protocol dictates.
 
 ###### RETR/SEND/STOP
-Works as protocol dictates. You cannot call SEND/STOP without first calling RETR succesfully.
+Works as protocol dictates. When a file is retrieved it will be stored in the root folder where the Makefile is. You cannot call SEND/STOP without first calling RETR succesfully.
 
 ###### STOR/SIZE
-Works as protocol dictates. The client will automatically call SIZE after a successful STOR call. But the user may not call SIZE without first calling  STOR successfully.
+Works as protocol dictates. You can only store files that are available in the root folder where the Makefile is. The client will automatically call SIZE after a successful STOR call. But the user may not call SIZE without first calling  STOR successfully.
 
 ###### DONE
 Works as protocol dictates.
@@ -45,7 +45,7 @@ Works as protocol dictates.
 **IMPORTANT: You MUST run these automated tests BEFORE testing program manually, otherwise the provided test answers will not match with the program output.**
 The Makefile runs 6 different test sets. The server output will be printed to the terminal as if you were actually running the program.
 Instructions:
-1. Make sure you are in the same directory as the Makefile
+1. Make sure you are in the same directory as the Makefile (root)
 2. Open a terminal
 3. Run ```make clean```
 4. Run ```make run_server```
@@ -56,7 +56,7 @@ Instructions:
 
 ## Using the program    
 Instructions:
-1. Make sure you are in the same directory as the Makefile
+1. Make sure you are in the same directory as the Makefile (root)
 2. Open a terminal
 2. Run ```make clean```
 3. Run ```make run_server```
