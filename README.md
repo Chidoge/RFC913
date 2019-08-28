@@ -60,6 +60,7 @@ Instructions:
 **Note: Since server output is also printed to the terminal, you need to scroll a bit through the terminal output to check the results of the tests.**
 
 ## About the test suite
+The test suite included has 6 different sets of commands which will test the application extensively. All the tests should pass, but in case they don't, the program will print the expected output and actual output for comparison. Otherwise if all goes well, you should see the line ```-------------------------  ALL TESTS PASSED -------------------------``` for each set of tests.
 
 ###### Test commands part 1
 The first set of test commands focus primarily on calling commands that cannot be called before the user is authenticated by logging on. The server should respond by rejecting these commands.    
