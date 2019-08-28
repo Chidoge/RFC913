@@ -41,6 +41,19 @@ Works as protocol dictates. The client will automatically call SIZE after a succ
 ###### DONE
 Works as protocol dictates.
 
+## Running tests
+**IMPORTANT: You MUST run these automated tests BEFORE testing program manually, otherwise the provided test answers will not match with the program output.**
+The Makefile runs 6 different test sets. The server output will be printed to the terminal as if you were actually running the program.
+Instructions:
+1. Make sure you are in the same directory as the Makefile
+2. Open a terminal
+3. Run ```make clean```
+4. Run ```make run_server```
+5. Open another separate terminal and in it, type ```make run_tests```
+6. Tests should take about 10-15 seconds to finish running.    
+**Note: Since server output is also printed to the terminal, you need to scroll a bit through the terminal output to check the results of the tests.**
+
+
 ## Using the program    
 Instructions:
 1. Make sure you are in the same directory as the Makefile
@@ -50,16 +63,7 @@ Instructions:
 4. Open another separate terminal and in it, type ```make run_client```
 5. Type your commands in the client terminal.
 
-## Running tests
-The Makefile runs 2 different test suites. The server output will be printed to the terminal as if you were actually running the program.
-Instructions:
-1. Make sure you are in the same directory as the Makefile
-2. Open a terminal
-3. Run ```make clean```
-4. Run ```make run_server```
-5. Open another separate terminal and in it, type ```make run_tests```
-6. Tests should take about 10-15 seconds to finish running.    
-**Note: Since server output is also printed to the terminal, you need to scroll a bit through the terminal output to check the results of the tests.**
+
 
 ## About the test suite
 The test suite included has 6 different sets of commands which will test the application extensively. All the tests should pass, but in case they don't, the program will print the expected output and actual output for comparison. Otherwise if all goes well, you should see the line ```-------------------------  ALL TESTS PASSED -------------------------``` for each set of tests.
