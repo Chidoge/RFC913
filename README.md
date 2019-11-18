@@ -1,5 +1,3 @@
-# COMPSYS725 Assignment 1
-
 **Default port is 3000**
 
 ## Notes about my commands
